@@ -32,7 +32,7 @@ p, h1, h2, h3, h4, h5, h6, label, div {
 st.markdown(custom_theme, unsafe_allow_html=True)
 
 # Sidebar Navigasi
-st.sidebar.image("gambar\\icon\\pumpkin.png", width=100)
+st.sidebar.image("https://cdn-icons-png.flaticon.com/128/17858/17858467.png", width=100)
 st.sidebar.title("📌 Navigasi")
 menu = st.sidebar.radio("Pilih Halaman", ["🏠 Home", "🔍 Prediksi", "ℹ️ Tentang"])
 
