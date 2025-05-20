@@ -74,8 +74,8 @@ except Exception as e:
 
 # Mapping variabel kategorikal
 categorical_mappings = {
-    'Sex': {'M': 1, 'F': 0},
-    'ChestPainType': {'ATA': 0, 'NAP': 1, 'ASY': 2, 'TA': 3},
+    'Sex': {'F': 0, 'M': 1},
+    'ChestPainType': {'ASY': 0, 'ATA': 1, 'NAP': 2, 'TA': 3},
     'RestingECG': {'LVH': 0, 'Normal': 1, 'ST': 2},
     'ExerciseAngina': {'N': 0, 'Y': 1},
     'ST_Slope': {'Down': 0, 'Flat': 1, 'Up': 2}
@@ -221,7 +221,7 @@ elif menu == "🔍 Prediksi":
                                          'Oldpeak', 'ST_Slope']]
 
                 # Scaling fitur numerik
-                numeric_features = ['Age', 'RestingBP', 'FastingBS', 'Cholesterol', 'MaxHR', 'Oldpeak']
+                numeric_features = ['Age', 'RestingBP', 'Cholesterol', 'FastingBS', 'MaxHR', 'Oldpeak']
                 input_data[numeric_features] = scaler.transform(input_data[numeric_features])
 
                 # Prediksi
