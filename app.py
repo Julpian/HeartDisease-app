@@ -40,7 +40,7 @@ with st.sidebar:
 
     menu = option_menu(
         menu_title=None,  # judul menu bisa dikosongkan karena sudah ada title di atas
-        options=["🏠 Home", "🔍 Prediksi", "ℹ️ Tentang"],
+        options=["🏠 Home", "🔍 Prediksi", "ℹ️ About"],
         icons=["house", "search", "info-circle"],
         menu_icon="cast",  # icon sidebar utama
         default_index=0,
@@ -84,7 +84,29 @@ categorical_mappings = {
 if menu == "🏠 Home":
     st.title("❤️ Aplikasi Prediksi Penyakit Jantung")
 
+    # ✅ Tabel Standar Input
+    st.subheader("📥 Standar Input Fitur")
     st.markdown("""
+    Berikut adalah rentang nilai dan jenis data yang digunakan sebagai input untuk model prediksi:
+
+    | Fitur           | Nilai Minimum     | Nilai Maksimum     | Keterangan |
+    |------------------|-------------------|---------------------|------------|
+    | **Age**          | 28 tahun          | 77 tahun            | Rentang usia pasien berdasarkan statistik deskriptif (sub-bab 4.1). |
+    | **Sex**          | F (Perempuan)     | M (Laki-laki)       | Kategorikal, hanya dua nilai yang valid berdasarkan dataset. |
+    | **ChestPainType**| ASY               | TA                  | Kategorikal: ASY (Asimptomatik), ATA (Angina Atipikal), NAP (Non-Angina), TA (Angina Tipikal). |
+    | **RestingBP**    | 80 mm Hg          | 200 mm Hg           | Rentang tekanan darah saat istirahat, nilai 0 dianggap anomali (sub-bab 4.1). |
+    | **Cholesterol**  | 100 mg/dl         | 603 mg/dl           | Kadar kolesterol serum, nilai 0 tidak realistis secara klinis (sub-bab 4.1). |
+    | **FastingBS**    | 0 (≤120 mg/dl)    | 1 (>120 mg/dl)      | Kategorikal biner, berdasarkan ambang batas gula darah puasa. |
+    | **RestingECG**   | LVH               | ST                  | Kategorikal: Normal, ST (kelainan ST-T), LVH (hipertrofi ventrikel kiri). |
+    | **MaxHR**        | 60                | 202                 | Denyut jantung maksimum, nilai >202 dianggap anomali (sub-bab 4.1). |
+    | **ExerciseAngina**| N (Tidak)        | Y (Ya)              | Kategorikal biner, menunjukkan ada/tidaknya angina akibat olahraga. |
+    | **Oldpeak**      | -2.6              | 6.2                 | Nilai depresi segmen ST, rentang berdasarkan dataset. |
+    | **ST_Slope**     | Down              | Up                  | Kategorikal: Up (Naik), Flat (Datar), Down (Menurun). |
+    """, unsafe_allow_html=True)
+
+    # ✅ Informasi Aplikasi
+    st.markdown("""
+    ---
     Aplikasi ini dikembangkan sebagai bagian dari **pembelajaran dan penelitian** dalam bidang data sains dan kesehatan, 
     khususnya untuk memprediksi risiko penyakit jantung menggunakan model pembelajaran mesin.
 
@@ -100,6 +122,8 @@ if menu == "🏠 Home":
 
     > Silakan lanjut ke tab **Prediksi** untuk mencoba model prediksi penyakit jantung berdasarkan input data medis Anda.
     """)
+
+    # ✅ Deskripsi Fitur
     st.markdown("""
     #### 🧬 Deskripsi Fitur Dataset:
 
@@ -118,6 +142,7 @@ if menu == "🏠 Home":
     | **ST_Slope**     | Kemiringan segmen ST saat puncak latihan: <br> • `Up`: Menaik <br> • `Flat`: Datar <br> • `Down`: Menurun |
     | **HeartDisease** | Target/output: `1` = Mengidap penyakit jantung, `0` = Normal |
     """, unsafe_allow_html=True)
+
 
 
 # Halaman Prediksi
@@ -166,7 +191,7 @@ elif menu == "🔍 Prediksi":
             fasting_bs = st.selectbox(
                 "Gula Darah Saat Puasa > 120 mg/dl?",
                 [0, 1],
-                format_func=lambda x: "Ya" if x == 1 else "Tidak"
+                format_func=lambda x: "1" if x == 1 else "0"
             )
             oldpeak = st.number_input("Oldpeak (Depresi ST)", -5.0, 10.0, 0.0, step=0.1)
             st_slope = st.selectbox("Kemiringan ST", ["Naik", "Datar", "Turun"])
@@ -200,7 +225,7 @@ elif menu == "🔍 Prediksi":
                 st.success(f"✅ Pasien **kemungkinan besar tidak** terkena penyakit jantung.\n\n**Probabilitas:** {probability:.2%}")
 
 # Halaman Tentang
-elif menu == "ℹ️ Tentang":
+elif menu == "ℹ️ About":
     st.title("ℹ️ Tentang Aplikasi")
     st.markdown("""
     Aplikasi ini dikembangkan untuk edukasi dan eksplorasi dalam bidang *Data Science* khususnya prediksi penyakit jantung.
