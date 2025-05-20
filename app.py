@@ -74,11 +74,11 @@ except Exception as e:
 
 # Mapping variabel kategorikal
 categorical_mappings = {
-    'Sex': {'Laki-laki': 1, 'Perempuan': 0},
+    'Sex': {'M': 1, 'F': 0},
     'ChestPainType': {'ATA': 0, 'NAP': 1, 'ASY': 2, 'TA': 3},
-    'RestingECG': {'Normal': 0, 'ST': 1, 'LVH': 2},
-    'ExerciseAngina': {'Tidak': 0, 'Ya': 1},
-    'ST_Slope': {'Naik': 0, 'Datar': 1, 'Turun': 2}
+    'RestingECG': {'LVH': 0, 'Normal': 1, 'ST': 2},
+    'ExerciseAngina': {'N': 0, 'Y': 1},
+    'ST_Slope': {'Down': 0, 'Flat': 1, 'Up': 2}
 }
 
 # Halaman Home
@@ -183,17 +183,17 @@ elif menu == "🔍 Prediksi":
             max_hr = st.number_input("Detak Jantung Maksimum", 0, 300, 150)
 
         with col2:
-            sex = st.selectbox("Jenis Kelamin", ["Laki-laki", "Perempuan"])
+            sex = st.selectbox("Jenis Kelamin", ["F", "M"])
             chest_pain_type = st.selectbox("Tipe Nyeri Dada", ["ATA", "NAP", "ASY", "TA"])
             resting_ecg = st.selectbox("Hasil EKG Saat Istirahat", ["Normal", "ST", "LVH"])
-            exercise_angina = st.selectbox("Nyeri Dada Saat Latihan?", ["Tidak", "Ya"])
+            exercise_angina = st.selectbox("Nyeri Dada Saat Latihan?", ["N", "Y"])
             fasting_bs = st.selectbox(
                 "Gula Darah Saat Puasa > 120 mg/dl?",
                 [0, 1],
                 format_func=lambda x: "1" if x == 1 else "0"
             )
             oldpeak = st.number_input("Oldpeak (Depresi ST)", -5.0, 10.0, 0.0, step=0.1)
-            st_slope = st.selectbox("Kemiringan ST", ["Naik", "Datar", "Turun"])
+            st_slope = st.selectbox("Kemiringan ST", ["Up", "Flat", "Down"])
 
         if st.button("🧠 Jalankan Prediksi"):
             with st.spinner("🔄 Menjalankan model prediksi..."):
@@ -221,19 +221,22 @@ elif menu == "🔍 Prediksi":
                                          'Oldpeak', 'ST_Slope']]
 
                 # Scaling fitur numerik
-                numeric_features = ['Age', 'RestingBP', 'Cholesterol', 'MaxHR', 'Oldpeak']
+                numeric_features = ['Age', 'RestingBP', 'FastingBS', 'Cholesterol', 'MaxHR', 'Oldpeak']
                 input_data[numeric_features] = scaler.transform(input_data[numeric_features])
 
                 # Prediksi
                 prediction = model.predict(input_data)[0]
                 probability_class_1 = model.predict_proba(input_data)[0][1]
-                probability_class_0 = model.predict_proba(input_data)[0][0]
 
+            # Hasil prediksi berdasarkan probabilitas
             st.subheader("📊 Hasil Prediksi")
-            if prediction == 1:
-                st.error(f"⚠️ Pasien **berisiko tinggi** terkena penyakit jantung.\n\n**Probabilitas Penyakit Jantung:** {probability_class_1:.2%}")
-            else:
-                st.success(f"✅ Pasien **kemungkinan besar tidak** terkena penyakit jantung.\n\n**Probabilitas Tidak Sakit:** {probability_class_0:.2%}")
+            if probability_class_1 < 0.25:
+                st.success(f"✅ Pasien **tidak berisiko** terkena penyakit jantung.\n\n**Probabilitas Penyakit Jantung:** {probability_class_1:.2%}")
+            elif 0.25 <= probability_class_1 <= 0.50:
+                st.warning(f"⚠️ Pasien **kemungkinan memiliki** penyakit jantung.\n\n**Probabilitas Penyakit Jantung:** {probability_class_1:.2%}")
+            else:  # probability_class_1 > 0.50
+                st.error(f"🚨 Pasien **berisiko tinggi** terkena penyakit jantung.\n\n**Probabilitas Penyakit Jantung:** {probability_class_1:.2%}")
+                st.markdown("Silakan konsultasikan hasil ini dengan dokter atau tenaga medis profesional untuk penanganan lebih lanjut.")
 
 # Halaman Tentang
 elif menu == "ℹ️ About":
