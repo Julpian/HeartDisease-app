@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import joblib
 from streamlit_option_menu import option_menu
+from sklearn.preprocessing import StandardScaler
 
 # Konfigurasi halaman
 st.set_page_config(page_title="Prediksi Penyakit Jantung", layout="wide")
@@ -32,17 +33,16 @@ p, h1, h2, h3, h4, h5, h6, label, div {
 """
 st.markdown(custom_theme, unsafe_allow_html=True)
 
-
 # Sidebar Navigasi dengan streamlit-option-menu
 with st.sidebar:
     st.image("https://img.icons8.com/?size=100&id=35583&format=png", width=100)
     st.title("📌 Navigasi")
 
     menu = option_menu(
-        menu_title=None,  # judul menu bisa dikosongkan karena sudah ada title di atas
+        menu_title=None,
         options=["🏠 Home", "🔍 Prediksi", "ℹ️ About"],
         icons=["house", "search", "info-circle"],
-        menu_icon="cast",  # icon sidebar utama
+        menu_icon="cast",
         default_index=0,
         orientation="vertical",
         styles={
@@ -63,9 +63,10 @@ with st.sidebar:
         }
     )
 
-# Load model prediksi
+# Load model dan scaler
 try:
     model = joblib.load("best_random_forest_model.pkl")
+    scaler = joblib.load("scaler.pkl")  # Pastikan file scaler.pkl tersedia
     model_loaded = True
 except Exception as e:
     model_loaded = False
@@ -84,7 +85,7 @@ categorical_mappings = {
 if menu == "🏠 Home":
     st.title("❤️ Aplikasi Prediksi Penyakit Jantung")
 
-    # ✅ Tabel Standar Input
+    # Tabel Standar Input
     st.subheader("📥 Standar Input Fitur")
     st.markdown("""
     Berikut adalah rentang nilai dan jenis data yang digunakan sebagai input untuk model prediksi:
@@ -104,7 +105,7 @@ if menu == "🏠 Home":
     | **ST_Slope**     | Down              | Up                  | Kategorikal: Up (Naik), Flat (Datar), Down (Menurun). |
     """, unsafe_allow_html=True)
 
-    # ✅ Informasi Aplikasi
+    # Informasi Aplikasi
     st.markdown("""
     ---
     Aplikasi ini dikembangkan sebagai bagian dari **pembelajaran dan penelitian** dalam bidang data sains dan kesehatan, 
@@ -123,7 +124,7 @@ if menu == "🏠 Home":
     > Silakan lanjut ke tab **Prediksi** untuk mencoba model prediksi penyakit jantung berdasarkan input data medis Anda.
     """)
 
-    # ✅ Deskripsi Fitur
+    # Deskripsi Fitur
     st.markdown("""
     #### 🧬 Deskripsi Fitur Dataset:
 
@@ -142,8 +143,6 @@ if menu == "🏠 Home":
     | **ST_Slope**     | Kemiringan segmen ST saat puncak latihan: <br> • `Up`: Menaik <br> • `Flat`: Datar <br> • `Down`: Menurun |
     | **HeartDisease** | Target/output: `1` = Mengidap penyakit jantung, `0` = Normal |
     """, unsafe_allow_html=True)
-
-
 
 # Halaman Prediksi
 elif menu == "🔍 Prediksi":
@@ -169,7 +168,7 @@ elif menu == "🔍 Prediksi":
     """, unsafe_allow_html=True)
 
     if not model_loaded:
-        st.error("❌ Model tidak berhasil dimuat. Pastikan file `best_random_forest_model.pkl` tersedia di direktori aplikasi.")
+        st.error("❌ Model tidak berhasil dimuat. Pastikan file `best_random_forest_model.pkl` dan `scaler.pkl` tersedia di direktori aplikasi.")
         st.exception(model_error)
     else:
         st.markdown("Silakan isi informasi berikut:")
@@ -212,17 +211,29 @@ elif menu == "🔍 Prediksi":
                     'ST_Slope': [st_slope]
                 })
 
+                # Petakan fitur kategorikal
                 for col in ['Sex', 'ChestPainType', 'RestingECG', 'ExerciseAngina', 'ST_Slope']:
                     input_data[col] = input_data[col].map(categorical_mappings[col])
 
+                # Pastikan urutan kolom sama dengan saat pelatihan
+                input_data = input_data[['Age', 'Sex', 'ChestPainType', 'RestingBP', 'Cholesterol', 
+                                         'FastingBS', 'RestingECG', 'MaxHR', 'ExerciseAngina', 
+                                         'Oldpeak', 'ST_Slope']]
+
+                # Scaling fitur numerik
+                numeric_features = ['Age', 'RestingBP', 'Cholesterol', 'MaxHR', 'Oldpeak']
+                input_data[numeric_features] = scaler.transform(input_data[numeric_features])
+
+                # Prediksi
                 prediction = model.predict(input_data)[0]
-                probability = model.predict_proba(input_data)[0][1]
+                probability_class_1 = model.predict_proba(input_data)[0][1]
+                probability_class_0 = model.predict_proba(input_data)[0][0]
 
             st.subheader("📊 Hasil Prediksi")
             if prediction == 1:
-                st.error(f"⚠️ Pasien **berisiko tinggi** terkena penyakit jantung.\n\n**Probabilitas:** {probability:.2%}")
+                st.error(f"⚠️ Pasien **berisiko tinggi** terkena penyakit jantung.\n\n**Probabilitas Penyakit Jantung:** {probability_class_1:.2%}")
             else:
-                st.success(f"✅ Pasien **kemungkinan besar tidak** terkena penyakit jantung.\n\n**Probabilitas:** {probability:.2%}")
+                st.success(f"✅ Pasien **kemungkinan besar tidak** terkena penyakit jantung.\n\n**Probabilitas Tidak Sakit:** {probability_class_0:.2%}")
 
 # Halaman Tentang
 elif menu == "ℹ️ About":
@@ -241,7 +252,7 @@ elif menu == "ℹ️ About":
     💡 Mahasiswa & Praktisi Data Pemula
     """)
 
-    # Menampilkan foto pengembang (ganti path sesuai nama file foto Anda)
+    # Menampilkan foto pengembang
     st.image("gambar/lutfi.jpg", width=150, caption="Lutfi Julpian")
 
     st.markdown("""
