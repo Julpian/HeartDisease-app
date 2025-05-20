@@ -221,7 +221,7 @@ elif menu == "🔍 Prediksi":
                                          'Oldpeak', 'ST_Slope']]
 
                 # Scaling fitur numerik
-                numeric_features = ['Age', 'RestingBP', 'Cholesterol', 'FastingBS', 'MaxHR', 'Oldpeak']
+                numeric_features = ['Age', 'RestingBP', 'FastingBS', 'Cholesterol', 'MaxHR', 'Oldpeak']
                 input_data[numeric_features] = scaler.transform(input_data[numeric_features])
 
                 # Prediksi
