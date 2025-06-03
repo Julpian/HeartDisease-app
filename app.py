@@ -83,7 +83,7 @@ categorical_mappings = {
 
 # Halaman Home
 if menu == "🏠 Home":
-    st.title("❤️ Aplikasi Prediksi Penyakit Jantung")
+    st.title("🫀Aplikasi Prediksi Penyakit Jantung")
 
     # Tabel Standar Input
     st.subheader("📥 Standar Input Fitur")
