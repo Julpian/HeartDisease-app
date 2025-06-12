@@ -6,3 +6,4 @@ imbalanced-learn==0.13.0
 numpy
 streamlit-option-menu
 lime
+plotly
