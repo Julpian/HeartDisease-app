@@ -192,7 +192,7 @@ def atur_gaya():
     [data-testid="stSidebar"] { background-color: #1ff0b3; }
     .stButton button { width: 100%; border-radius: 8px; background-color: #4CAF50; color: white; } 
     .stSpinner > div > div { border-top-color: #4CAF50; }
-    .banner { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; }
+    .banner { background: linear-gradient(135deg, #0CE8BC 0%, #764ba2 100%); color: white; padding: 30px 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; }
     .banner-title { font-size: 36px; font-weight: bold; display: flex; align-items: center; justify-content: center; }
     .banner-icon { font-size: 40px; margin-right: 15px; }
     .banner-subtitle { font-size: 16px; margin-top: 10px; opacity: 0.9; }
