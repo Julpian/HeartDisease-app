@@ -16,20 +16,17 @@ import plotly.express as px
 # 1. KONFIGURASI, DATA STATIS, DAN GAYA (CSS)
 # ==============================================================================
 
-# Konfigurasi halaman utama Streamlit
 st.set_page_config(
-    page_title="Heart Disease Prediction",
+    page_title="Prediksi Penyakit Jantung",
     page_icon="🫀",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# ========================================================================================
-# [PERBAIKAN] - Menambahkan kembali kunci untuk legenda risiko
-# ========================================================================================
+# Kamus Terjemahan
 TRANSLATIONS = {
     'id': {
-        'banner_title': "Sistem Prediksi Penyakit Jantung Canggih",
+        'banner_title': "Sistem Prediksi Penyakit Jantung",
         'banner_subtitle': "Didukung oleh Teknologi Machine Learning & AI",
         'nav_home': "🏠 Home", 'nav_predict': "🔍 Prediksi", 'nav_about': "ℹ️ Tentang",
         'nav_title': "📌 Navigasi", 'lang_select_title': "Pilih Bahasa",
@@ -39,7 +36,7 @@ TRANSLATIONS = {
         'model_info_accuracy': "Akurasi: 90%",
         'model_info_features': "Fitur: 11 Indikator Medis",
         'home_intro_new': "Manfaatkan kekuatan kecerdasan buatan untuk menilai risiko penyakit jantung dengan presisi dan kepercayaan diri.",
-        'dataset_overview_title': "📊 Tinjauan Dataset Real-time",
+        'dataset_overview_title': "📊 Tinjauan Dataset",
         'total_samples_title': "Total Sampel", 'total_samples_desc': "Rekam Pasien",
         'features_title': "Fitur", 'features_desc': "Indikator Kesehatan",
         'positive_cases_title': "Kasus Sakit Jantung", 'positive_cases_desc': "Kasus Positif",
@@ -101,98 +98,94 @@ TRANSLATIONS = {
         'about_developer': "Pengembang",
         'about_advisor_1': "Dosen Pembimbing 1: Irani Hoeronis S.Si, M.T., CRP., CIISA.",
         'about_advisor_2': "Dosen Pembimbing 2: Siti Yulianti S.T., M.Kom.",
-        
-        # KUNCI BARU UNTUK LEGENDA
         'risk_key_title': "🔑 Kunci Kategori Risiko",
         'risk_key_low_title': "🟢 Risiko Rendah",
-        'risk_key_low_desc': "Probabilitas di bawah 25%",
+        'risk_key_low_desc': "Probabilitas < 25%",
         'risk_key_medium_title': "🟡 Risiko Sedang",
-        'risk_key_medium_desc': "Probabilitas antara 25% - 45.9%",
+        'risk_key_medium_desc': "Probabilitas 25% - 45.9%",
         'risk_key_high_title': "🔴 Risiko Tinggi",
-        'risk_key_high_desc': "Probabilitas 46% atau lebih",
+        'risk_key_high_desc': "Probabilitas ≥ 46%",
     },
-    'en': {
-        'banner_title': "Advanced Heart Disease Prediction System",
-        'banner_subtitle': "Powered by Machine Learning & AI Technology",
-        'nav_home': "🏠 Home", 'nav_predict': "🔍 Prediction", 'nav_about': "ℹ️ About",
-        'nav_title': "📌 Navigation", 'lang_select_title': "Select Language",
-        'model_info_title': "🎯 Model Info",
-        'model_info_algo': "Algorithm: Random Forest",
-        'model_info_recall': "Recall: 92%",
-        'model_info_accuracy': "Accuracy: 90%",
-        'model_info_features': "Features: 11 Medical Indicators",
-        'home_intro_new': "Leverage the power of artificial intelligence to assess heart disease risk with precision and confidence.",
-        'dataset_overview_title': "📊 Real-time Dataset Overview",
-        'total_samples_title': "Total Samples", 'total_samples_desc': "Patient Records",
-        'features_title': "Features", 'features_desc': "Health Indicators",
-        'positive_cases_title': "Heart Disease Cases", 'positive_cases_desc': "Positive Cases",
-        'healthy_cases_title': "Healthy Cases", 'healthy_cases_desc': "Negative Cases",
-        'input_guide_title': "📘 Feature Input Guide",
-        'age_title': "🎂 Age", 'age_range': "Data range in the model: **28 - 77 years**.",
-        'resting_bp_title': "🩸 Resting BP", 'resting_bp_range': "Data range: **0 - 200 mm Hg**.",
-        'cholesterol_title': "🧪 Cholesterol", 'cholesterol_range': "Data range: **0 - 603 mg/dl**.",
-        'cholesterol_note': "💡 **Info**: A value of 0 likely indicates missing data. A clinically normal value is generally **< 200 mg/dl**.",
-        'max_hr_title': "❤️‍🔥 Max HR", 'max_hr_range': "Data range: **60 - 202 bpm**.",
-        'oldpeak_title': "📈 Oldpeak", 'oldpeak_range': "Data range: **-2.6 - 6.2**.",
-        'categorical_title': "🗂️ Categorical Features",
-        'categorical_desc': "For features like *Sex* or *Chest Pain Type*, you just need to select from the available options.",
-        'home_disclaimer_title': "⚠️ Important Disclaimer",
-        'home_disclaimer_md': "This application is a prototype for educational purposes and **must not be used for real medical diagnosis**. The prediction results do not replace consultation with a professional healthcare provider.",
-        'form_intro': "Please fill in the patient's data below accurately to get a prediction.",
-        'patient_data_header': "🩺 Patient Data",
-        'age_label': "Age", 'sex_label': "Sex", 'chest_pain_type_label': "Chest Pain Type",
-        'resting_bp_label': "Resting BP", 'cholesterol_label': "Cholesterol",
-        'fasting_bs_label': "Fasting BS > 120 mg/dl?", 'resting_ecg_label': "Resting ECG",
-        'max_hr_label': "Max HR", 'exercise_angina_label': "Exercise Angina?",
-        'oldpeak_label': "Oldpeak", 'st_slope_label': "ST Slope",
-        'predict_button': "🧠 Run Prediction & Analysis", 'spinner_text': "🔄 Analyzing data...",
-        'result_header': "📊 AI Analysis Results",
-        'risk_score': "Risk Score", 'risk_level': "Risk Level", 'recommendation': "Recommendation",
-        'result_low_risk': "LOW RISK", 'result_medium_risk': "MEDIUM RISK", 'result_high_risk': "HIGH RISK",
-        'recommendation_low': "Continue healthy lifestyle practices.",
-        'recommendation_medium': "It is advisable to consult a doctor for monitoring.",
-        'recommendation_high': "IMMEDIATELY consult a cardiologist.",
-        'probability_breakdown': "🔗 Probability Breakdown",
-        'risk_distribution': "Risk Probability Distribution",
-        'no_disease': "No Heart Disease", 'disease': "Heart Disease",
-        'model_confidence_title': "🎯 Model Confidence",
-        'prediction_confidence_label': "Prediction Confidence",
-        'no_disease_prob': "Probability of No Heart Disease", 'disease_prob': "Probability of Heart Disease",
-        'lime_analysis_title': "🔬 Risk Factor Explanation (LIME Analysis)",
-        'lime_explanation': "The plot below shows the factors that most influenced this prediction. Features with red bars support the 'Heart Disease' prediction, while green bars oppose it.",
-        'lime_plot_title_prefix': "Local explanation for class", 'class_disease': "Disease",
-        'prob_explanation_title': "💡 Probability Interpretation",
-        'prob_explanation_high': "The patient's probability score **({score:.1f}%)** is above the high-risk threshold **(46%)**, thus classified as **HIGH RISK**.",
-        'prob_explanation_medium': "The patient's probability score **({score:.1f}%)** is within the medium-risk threshold **(25% - 45.9%)**, thus classified as **MEDIUM RISK**.",
-        'prob_explanation_low': "The patient's probability score **({score:.1f}%)** is below the medium-risk threshold **(25%)**, thus classified as **LOW RISK**.",
-        'about_what_is_it_title': "🎯 What is this application?",
-        'about_what_is_it_desc': "This heart disease prediction application uses an advanced machine learning algorithm to assess heart disease risk based on various patient health indicators.",
-        'about_main_features_title': "✨ Main Features",
-        'about_feature_1': "**AI-Powered Prediction:** Utilizes a Random Forest machine learning algorithm for high prediction accuracy.",
-        'about_feature_2': "**Interactive Analysis:** Explore medical data with easy-to-understand visualizations.",
-        'about_feature_3': "**Personalized Risk Assessment:** Get a personalized evaluation of your heart disease risk.",
-        'about_feature_4': "**User-Friendly:** A simple and intuitive interface for easy health screening.",
-        'about_dataset_info_title': "📋 Dataset Information",
-        'about_datasource_title': "📊 Data Source",
-        'about_datasource_1': "**Source:** Kaggle - Heart Failure Prediction",
-        'about_datasource_2': "**Records:** 918 patients",
-        'about_datasource_3': "**Features:** 11 medical indicators",
-        'about_datasource_4': "**Model Accuracy:** ~90%",
-        'about_health_indicators_title': "📈 Health Indicators",
-        'about_indicators_list': ["Age", "Sex", "Chest Pain Type", "Resting Blood Pressure", "Cholesterol", "Fasting Blood Sugar", "Resting ECG", "Maximum Heart Rate", "Exercise Angina", "Oldpeak", "ST Slope"],
-        'about_dev_team_title': "👥 Development & Advisory Team",
-        'about_developer': "Developer",
-        'about_advisor_1': "Advisor 1: Irani Hoeronis S.Si, M.T., CRP., CIISA.",
-        'about_advisor_2': "Advisor 2: Siti Yulianti S.T., M.Kom.",
-
-        # NEW KEYS FOR LEGEND
-        'risk_key_title': "🔑 Risk Category Key",
-        'risk_key_low_title': "🟢 Low Risk",
-        'risk_key_low_desc': "Probability below 25%",
-        'risk_key_medium_title': "🟡 Medium Risk",
-        'risk_key_medium_desc': "Probability between 25% - 45.9%",
-        'risk_key_high_title': "🔴 High Risk",
-        'risk_key_high_desc': "Probability 46% or higher",
+    'en': { # English translations need to be fully populated for a real app
+        'banner_title': "Heart Disease Prediction System",
+    'banner_subtitle': "Powered by Machine Learning & AI",
+    'nav_home': "🏠 Home", 'nav_predict': "🔍 Predict", 'nav_about': "ℹ️ About",
+    'nav_title': "📌 Navigation", 'lang_select_title': "Select Language",
+    'model_info_title': "🎯 Model Info",
+    'model_info_algo': "Algorithm: Random Forest",
+    'model_info_recall': "Recall: 92%",
+    'model_info_accuracy': "Accuracy: 90%",
+    'model_info_features': "Features: 11 Medical Indicators",
+    'home_intro_new': "Harness the power of artificial intelligence to assess heart disease risk with precision and confidence.",
+    'dataset_overview_title': "📊 Dataset Overview",
+    'total_samples_title': "Total Samples", 'total_samples_desc': "Patient Records",
+    'features_title': "Features", 'features_desc': "Health Indicators",
+    'positive_cases_title': "Heart Disease Cases", 'positive_cases_desc': "Positive Cases",
+    'healthy_cases_title': "Healthy Cases", 'healthy_cases_desc': "Negative Cases",
+    'input_guide_title': "📘 Feature Input Guide",
+    'age_title': "🎂 Age", 'age_range': "Model data range: **28 - 77 years**.",
+    'resting_bp_title': "🩸 Resting Blood Pressure", 'resting_bp_range': "Data range: **0 - 200 mm Hg**.",
+    'cholesterol_title': "🧪 Cholesterol", 'cholesterol_range': "Data range: **0 - 603 mg/dl**.",
+    'cholesterol_note': "💡 **Info**: A value of 0 indicates missing data. Normal clinical value is typically **< 200 mg/dl**.",
+    'max_hr_title': "❤️‍🔥 Max Heart Rate", 'max_hr_range': "Data range: **60 - 202 bpm**.",
+    'oldpeak_title': "📈 Oldpeak", 'oldpeak_range': "Data range: **-2.6 - 6.2**.",
+    'categorical_title': "🗂️ Categorical Features",
+    'categorical_desc': "For features like *Gender* or *Chest Pain Type*, simply select from the available options.",
+    'home_disclaimer_title': "⚠️ Important Disclaimer",
+    'home_disclaimer_md': "This app is a prototype for educational purposes and **must not be used for actual medical diagnosis**. Predictions do not replace professional medical consultation.",
+    'form_intro': "Please fill in the patient's data below accurately to get a prediction.",
+    'patient_data_header': "🩺 Patient Data",
+    'age_label': "Age", 'sex_label': "Gender", 'chest_pain_type_label': "Chest Pain Type",
+    'resting_bp_label': "Resting Blood Pressure", 'cholesterol_label': "Cholesterol",
+    'fasting_bs_label': "Fasting Blood Sugar > 120 mg/dl?", 'resting_ecg_label': "Resting ECG Result",
+    'max_hr_label': "Maximum Heart Rate", 'exercise_angina_label': "Exercise-Induced Angina?",
+    'oldpeak_label': "Oldpeak", 'st_slope_label': "ST Slope",
+    'predict_button': "🧠 Run Prediction & Analysis", 'spinner_text': "🔄 Analyzing data...",
+    'result_header': "📊 AI Analysis Results",
+    'risk_score': "Risk Score", 'risk_level': "Risk Level", 'recommendation': "Recommendation",
+    'result_low_risk': "LOW RISK", 'result_medium_risk': "MEDIUM RISK", 'result_high_risk': "HIGH RISK",
+    'recommendation_low': "Continue healthy lifestyle.",
+    'recommendation_medium': "Recommended to consult a doctor for monitoring.",
+    'recommendation_high': "IMMEDIATELY consult a cardiologist.",
+    'probability_breakdown': "🔗 Probability Breakdown",
+    'risk_distribution': "Risk Probability Distribution",
+    'no_disease': "No Heart Disease", 'disease': "Heart Disease",
+    'model_confidence_title': "🎯 Model Confidence",
+    'prediction_confidence_label': "Prediction Confidence",
+    'no_disease_prob': "No Disease Probability", 'disease_prob': "Heart Disease Probability",
+    'lime_analysis_title': "🔬 Risk Factor Explanation (LIME Analysis)",
+    'lime_explanation': "The chart below shows the most influential factors for this patient's prediction. Red bars support 'Heart Disease' prediction, while green bars oppose it.",
+    'lime_plot_title_prefix': "Local explanation for class", 'class_disease': "Disease",
+    'prob_explanation_title': "💡 Probability Interpretation",
+    'prob_explanation_high': "The patient's probability score **({score:.1f}%)** is above the high-risk threshold **(46%)**, so classified as **HIGH RISK**.",
+    'prob_explanation_medium': "The patient's probability score **({score:.1f}%)** is within the medium-risk threshold **(25% - 45.9%)**, so classified as **MEDIUM RISK**.",
+    'prob_explanation_low': "The patient's probability score **({score:.1f}%)** is below the medium-risk threshold **(25%)**, so classified as **LOW RISK**.",
+    'about_what_is_it_title': "🎯 What is this app?",
+    'about_what_is_it_desc': "This heart disease prediction app uses advanced machine learning algorithms to assess the risk of heart disease based on various patient health indicators.",
+    'about_main_features_title': "✨ Key Features",
+    'about_feature_1': "**AI-Powered Prediction:** Uses Random Forest algorithm for high prediction accuracy.",
+    'about_feature_2': "**Interactive Analysis:** Explore medical data through intuitive visualizations.",
+    'about_feature_3': "**Personalized Risk Assessment:** Get a personalized evaluation of heart disease risk.",
+    'about_feature_4': "**User-Friendly:** Simple interface for easy health screening.",
+    'about_dataset_info_title': "📋 Dataset Information",
+    'about_datasource_title': "📊 Data Source",
+    'about_datasource_1': "**Source:** Kaggle - Heart Failure Prediction",
+    'about_datasource_2': "**Records:** 918 patients",
+    'about_datasource_3': "**Features:** 11 medical indicators",
+    'about_datasource_4': "**Model Accuracy:** ~90%",
+    'about_health_indicators_title': "📈 Health Indicators",
+    'about_indicators_list': ["Age", "Gender", "Chest Pain Type", "Resting Blood Pressure", "Cholesterol", "Fasting Blood Sugar", "Resting ECG", "Max Heart Rate", "Exercise-Induced Angina", "Oldpeak", "ST Slope"],
+    'about_dev_team_title': "👥 Development Team & Advisors",
+    'about_developer': "Developer",
+    'about_advisor_1': "Advisor 1: Irani Hoeronis S.Si, M.T., CRP., CIISA.",
+    'about_advisor_2': "Advisor 2: Siti Yulianti S.T., M.Kom.",
+    'risk_key_title': "🔑 Risk Category Key",
+    'risk_key_low_title': "🟢 Low Risk",
+    'risk_key_low_desc': "Probability < 25%",
+    'risk_key_medium_title': "🟡 Medium Risk",
+    'risk_key_medium_desc': "Probability 25% - 45.9%",
+    'risk_key_high_title': "🔴 High Risk",
+    'risk_key_high_desc': "Probability ≥ 46%",
     }
 }
 
@@ -201,15 +194,20 @@ def atur_gaya():
     st.markdown("""
     <style>
     .stApp { background-color: #ffffff; } 
-    [data-testid="stSidebar"] { background-color: #1ff0b3; }
-    .stButton button { width: 100%; border-radius: 8px; background-color: #4CAF50; color: white; } 
-    .stSpinner > div > div { border-top-color: #4CAF50; }
-    .banner { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; }
-    .banner-title { font-size: 36px; font-weight: bold; display: flex; align-items: center; justify-content: center; }
-    .banner-icon { font-size: 40px; margin-right: 15px; }
-    .banner-subtitle { font-size: 16px; margin-top: 10px; opacity: 0.9; }
+    [data-testid="stSidebar"] { background-color: #F0F2F6; }
+    .stButton button { 
+        width: 100%; border-radius: 8px; border: 1px solid #0d6efd;
+        background-color: #0d6efd; color: white; 
+    }
+    .stButton button:hover { background-color: #0b5ed7; border: 1px solid #0b5ed7; color: white; }
+    .stSpinner > div > div { border-top-color: #0d6efd; }
+    .banner { background: #FFFFFF; color: #31333F; padding: 2rem; border-radius: 15px;
+              border-left: 8px solid #0d6efd; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-bottom: 2rem; }
+    .banner-title { font-size: 2.5rem; font-weight: bold; display: flex; align-items: center; }
+    .banner-icon { font-size: 2.8rem; margin-right: 1.5rem; color: #0d6efd; }
+    .banner-subtitle { font-size: 1.1rem; margin-top: 0.5rem; opacity: 0.8; }
     .result-box { border-radius: 10px; padding: 25px; margin-bottom: 20px; color: #31333F; }
-    .result-box-low { background-color: #E9F5E9; border-left: 6px solid #4CAF50; }
+    .result-box-low { background-color: #E9F5E9; border-left: 6px solid #28a745; }
     .result-box-medium { background-color: #FFF8E1; border-left: 6px solid #FFC107; }
     .result-box-high { background-color: #FFEBEE; border-left: 6px solid #F44336; }
     .result-title { font-size: 24px; font-weight: bold; display: flex; align-items: center; }
@@ -228,9 +226,11 @@ def tampilkan_header_banner(T):
     <div class="banner">
         <div class="banner-title">
             <span class="banner-icon">🫀</span>
-            <span>{T['banner_title']}</span>
+            <div>
+                <span>{T['banner_title']}</span>
+                <p class="banner-subtitle">{T['banner_subtitle']}</p>
+            </div>
         </div>
-        <p class="banner-subtitle">{T['banner_subtitle']}</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -252,36 +252,74 @@ def setup_resources():
         )
         return model, explainer, preprocessor, df
     except FileNotFoundError:
-        st.error("Gagal memuat file 'model_pipeline_terbaik.pkl' atau 'heart.csv'. Pastikan file-file tersebut ada di direktori yang sama.")
+        st.error("Gagal memuat file 'model_pipeline_terbaik.pkl' atau 'heart.csv'.")
         return None, None, None, None
 
 def create_gauge_chart(probability_score, T):
+    # ... (fungsi ini tidak berubah)
     fig = go.Figure(go.Indicator(
-        mode = "gauge+number+delta", value = probability_score, title = {'text': T['risk_level'], 'font': {'size': 20}},
-        number = {'suffix': "%", 'font': {'size': 16}},
-        gauge = {'axis': {'range': [None, 100], 'tickwidth': 1, 'tickcolor': "darkblue"}, 'bar': {'color': "rgba(0,0,0,0)"},
-                 'steps': [{'range': [0, 25], 'color': 'green'}, {'range': [25, 46], 'color': 'yellow'}, {'range': [46, 100], 'color': 'red'}],
-                 'threshold': {'line': {'color': "red", 'width': 4}, 'thickness': 0.9, 'value': probability_score}},
-        domain = {'x': [0, 1], 'y': [0, 1]}))
-    fig.update_layout(height=250, margin=dict(l=10, r=10, t=50, b=10))
+        mode = "gauge+number", value = probability_score,
+        title = {'text': T['risk_level'], 'font': {'size': 20}},
+        number = {'suffix': "%", 'font': {'size': 24}},
+        gauge = {
+            'axis': {'range': [None, 100], 'tickwidth': 1, 'tickcolor': "gray"},
+            'bar': {'color': "#0d6efd"}, 
+            'steps': [
+                {'range': [0, 25], 'color': '#E9F5E9'},
+                {'range': [25, 46], 'color': '#FFF8E1'},
+                {'range': [46, 100], 'color': '#FFEBEE'}],
+        }))
+    fig.update_layout(height=250, margin=dict(l=20, r=20, t=50, b=20))
     return fig
 
+# ==========================================================
+# [MODIFIKASI] - Mengubah pemetaan warna pada pie chart
+# ==========================================================
 def create_pie_chart(probability_score, T):
-    labels = [T['no_disease'], T['disease']]; values = [100 - probability_score, probability_score]; colors = ['green', 'red']
-    fig = px.pie(values=values, names=labels, color_discrete_sequence=colors, hole=.4)
-    fig.update_layout(title_text=T['risk_distribution'], showlegend=True, height=300, margin=dict(l=10, r=10, t=40, b=10))
+    labels = [T['no_disease'], T['disease']]
+    values = [100 - probability_score, probability_score]
+    
+    # Pemetaan warna yang eksplisit dan benar
+    color_map = {
+        T['no_disease']: '#28a745',  # Hijau untuk "Tidak Sakit Jantung"
+        T['disease']: '#dc3545'      # Merah untuk "Sakit Jantung"
+    }
+
+    fig = px.pie(
+        values=values, 
+        names=labels, 
+        color=labels,
+        color_discrete_map=color_map, # Menggunakan pemetaan warna eksplisit
+        hole=.4
+    )
+    
+    fig.update_layout(
+        title_text=T['risk_distribution'], 
+        showlegend=True, 
+        height=300, 
+        margin=dict(l=10, r=10, t=40, b=10)
+    )
     return fig
+
 
 def atur_navigasi(T):
     with st.sidebar:
         st.markdown(f"### {T['lang_select_title']}")
-        selected_lang_display = option_menu(menu_title=None, options=["Indonesia", "English"], icons=["globe2", "globe-americas"], menu_icon="translate", default_index=0 if st.session_state.lang == 'id' else 1, orientation="horizontal", key="lang_menu", styles={"container": {"padding": "0!important", "background-color": "#e0e0e0", "border-radius": "8px"}, "nav-link-selected": {"background-color": "#2c3e50", "color": "white"}})
+        selected_lang_display = option_menu(menu_title=None, options=["Indonesia", "English"], icons=["globe2", "globe-americas"], menu_icon="translate", default_index=0 if st.session_state.lang == 'id' else 1, orientation="horizontal", key="lang_menu", 
+        styles={
+            "container": {"background-color": "#eee", "border-radius": "8px"},
+            "nav-link-selected": {"background-color": "#0d6efd"}
+        })
         new_lang = 'id' if selected_lang_display == 'Indonesia' else 'en'
         if st.session_state.lang != new_lang: st.session_state.lang = new_lang; st.rerun()
-        st.markdown(f"## {T['nav_title']}")
-        selected_page = option_menu(menu_title=None, options=[T['nav_home'], T['nav_predict'], T['nav_about']], icons=["house-heart-fill", "search-heart", "info-circle-fill"], menu_icon="cast", default_index=0, key="main_menu", styles={"container": {"padding": "5px", "background-color": "#ffffff", "border-radius": "10px"}, "nav-link-selected": {"background-color": "#4CAF50"}})
+        st.markdown(f"### {T['nav_title']}")
+        selected_page = option_menu(menu_title=None, options=[T['nav_home'], T['nav_predict'], T['nav_about']], icons=["house-heart-fill", "search-heart", "info-circle-fill"], menu_icon="cast", default_index=0, key="main_menu", 
+        styles={
+            "container": {"padding": "5px !important", "background-color": "#F0F2F6"},
+            "nav-link-selected": {"background-color": "#0d6efd"}
+        })
         st.markdown("<br>", unsafe_allow_html=True)
-        with st.container():
+        with st.container(border=True):
             st.markdown(f"**{T['model_info_title']}**")
             st.markdown(f"""
             - {T['model_info_algo']}
@@ -292,12 +330,12 @@ def atur_navigasi(T):
     return selected_page
 
 def tampilkan_halaman_home(T, df):
+    # ... (fungsi ini tidak berubah)
     st.markdown(f"#### {T['home_intro_new']}")
     st.markdown("---")
     if df is None: st.warning("Data `heart.csv` tidak ditemukan."); return
     total_sampel = df.shape[0]; total_fitur = df.shape[1] - 1; kasus_positif = df['HeartDisease'].sum(); kasus_negatif = total_sampel - kasus_positif
     st.subheader(T['dataset_overview_title'])
-    st.markdown("""<style>div[data-testid="metric-container"] {background-color: #667eea;background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);border: 1px solid rgba(255, 255, 255, 0.2);border-radius: 10px;padding: 20px;color: white;}div[data-testid="metric-container"] > div, div[data-testid="metric-container"] label {color: white;}</style>""", unsafe_allow_html=True)
     col1, col2, col3, col4 = st.columns(4)
     with col1: st.metric(label=f"🗂️ {T['total_samples_title']}", value=total_sampel, help=T['total_samples_desc'])
     with col2: st.metric(label=f"⚙️ {T['features_title']}", value=total_fitur, help=T['features_desc'])
@@ -309,7 +347,7 @@ def tampilkan_halaman_home(T, df):
     with col1:
         with st.container(border=True): st.markdown(f"**{T['age_title']}**"); st.write(T['age_range'])
         with st.container(border=True): st.markdown(f"**{T['resting_bp_title']}**"); st.write(T['resting_bp_range'])
-        with st.container(border=True): st.markdown(f"**{T['cholesterol_title']}**"); st.write(T['cholesterol_range']); st.write(T['cholesterol_note'])
+        with st.container(border=True): st.markdown(f"**{T['cholesterol_title']}**"); st.write(T['cholesterol_range']); st.info(T['cholesterol_note'])
     with col2:
         with st.container(border=True): st.markdown(f"**{T['max_hr_title']}**"); st.write(T['max_hr_range'])
         with st.container(border=True): st.markdown(f"**{T['oldpeak_title']}**"); st.write(T['oldpeak_range'])
@@ -317,31 +355,18 @@ def tampilkan_halaman_home(T, df):
     st.markdown("<br>", unsafe_allow_html=True)
     st.error(f"**{T['home_disclaimer_title']}**\n{T['home_disclaimer_md']}")
 
-# ==========================================================
-# [MODIFIKASI] - Menambahkan legenda risiko di atas form
-# ==========================================================
 def tampilkan_halaman_prediksi(T, model, explainer, preprocessor):
+    # ... (fungsi ini tidak berubah)
     st.info(T['form_intro'])
-
-    # --- Legenda Kategori Risiko ---
     st.markdown(f"**{T['risk_key_title']}**")
     col1, col2, col3 = st.columns(3)
     with col1:
-        with st.container(border=True):
-            st.markdown(T['risk_key_low_title'])
-            st.write(T['risk_key_low_desc'])
+        with st.container(border=True): st.markdown(T['risk_key_low_title']); st.write(T['risk_key_low_desc'])
     with col2:
-        with st.container(border=True):
-            st.markdown(T['risk_key_medium_title'])
-            st.write(T['risk_key_medium_desc'])
+        with st.container(border=True): st.markdown(T['risk_key_medium_title']); st.write(T['risk_key_medium_desc'])
     with col3:
-        with st.container(border=True):
-            st.markdown(T['risk_key_high_title'])
-            st.write(T['risk_key_high_desc'])
-    
+        with st.container(border=True): st.markdown(T['risk_key_high_title']); st.write(T['risk_key_high_desc'])
     st.markdown("<br>", unsafe_allow_html=True)
-    
-    # --- Formulir Input Pasien ---
     with st.container(border=True):
         with st.form("prediction_form"):
             st.header(T['patient_data_header'])
@@ -353,7 +378,6 @@ def tampilkan_halaman_prediksi(T, model, explainer, preprocessor):
             with col3:
                 max_hr = st.number_input(T['max_hr_label'], min_value=50, max_value=220, value=150, step=1); exercise_angina = st.selectbox(T['exercise_angina_label'], ['Y', 'N']); oldpeak = st.number_input(T['oldpeak_label'], min_value=-3.0, max_value=7.0, value=1.0, step=0.1, format="%.1f"); st_slope = st.selectbox(T['st_slope_label'], ['Up', 'Flat', 'Down']); resting_ecg = st.selectbox(T['resting_ecg_label'], ['Normal', 'ST', 'LVH'])
             submitted = st.form_submit_button(T['predict_button'], use_container_width=True, type="primary")
-            
     if submitted:
         with st.spinner(T['spinner_text']):
             input_data = pd.DataFrame({'Age': [age], 'Sex': [sex], 'ChestPainType': [chest_pain_type], 'RestingBP': [resting_bp], 'Cholesterol': [cholesterol], 'FastingBS': [fasting_bs], 'RestingECG': [resting_ecg], 'MaxHR': [max_hr], 'ExerciseAngina': [exercise_angina], 'Oldpeak': [oldpeak], 'ST_Slope': [st_slope]})
@@ -375,10 +399,8 @@ def tampilkan_halaman_prediksi(T, model, explainer, preprocessor):
             with st.container(border=True): st.plotly_chart(create_pie_chart(prob_sakit_percent, T), use_container_width=True)
         with col2:
             with st.container(border=True):
-                st.markdown(f"**{T['model_confidence_title']}**")
-                st.markdown(f"**{T['prediction_confidence_label']}:** `{max(prob_sakit, 1-prob_sakit):.1%}`")
-                st.markdown(f"**{T['no_disease_prob']}:** `{1-prob_sakit:.1%}`")
-                st.markdown(f"**{T['disease_prob']}:** `{prob_sakit:.1%}`")
+                st.markdown(f"**{T['model_confidence_title']}**"); st.markdown(f"**{T['prediction_confidence_label']}:** `{max(prob_sakit, 1-prob_sakit):.1%}`")
+                st.markdown(f"**{T['no_disease_prob']}:** `{1-prob_sakit:.1%}`"); st.markdown(f"**{T['disease_prob']}:** `{prob_sakit:.1%}`")
                 st.markdown("---"); st.info(T['prob_explanation_low'].format(score=prob_sakit_percent) if risk_class == 'low' else T['prob_explanation_medium'].format(score=prob_sakit_percent) if risk_class == 'medium' else T['prob_explanation_high'].format(score=prob_sakit_percent))
         with st.expander(T['lime_analysis_title']):
             st.markdown(T['lime_explanation']); fig = explanation.as_pyplot_figure(label=1); ax = plt.gca(); bars = ax.patches; exp_list = explanation.as_list(label=1); exp_list.reverse()
@@ -390,49 +412,35 @@ def tampilkan_halaman_prediksi(T, model, explainer, preprocessor):
             ax.set_title(f"{T['lime_plot_title_prefix']} {T['class_disease']}", fontsize=15); st.pyplot(fig, use_container_width=True); plt.clf()
 
 def tampilkan_halaman_about(T):
+    # ... (fungsi ini tidak berubah)
     st.markdown(f"### {T['about_what_is_it_title']}")
-    with st.container(border=True):
-        st.write(T['about_what_is_it_desc'])
+    with st.container(border=True): st.write(T['about_what_is_it_desc'])
     st.markdown(f"### {T['about_main_features_title']}")
     with st.container(border=True):
-        st.markdown(f"- {T['about_feature_1']}")
-        st.markdown(f"- {T['about_feature_2']}")
-        st.markdown(f"- {T['about_feature_3']}")
-        st.markdown(f"- {T['about_feature_4']}")
+        st.markdown(f"- {T['about_feature_1']}"); st.markdown(f"- {T['about_feature_2']}"); st.markdown(f"- {T['about_feature_3']}"); st.markdown(f"- {T['about_feature_4']}")
     st.markdown(f"### {T['about_dataset_info_title']}")
     col1, col2 = st.columns(2)
     with col1:
         with st.container(border=True, height=280):
-            st.markdown(f"#### {T['about_datasource_title']}")
-            st.markdown(f"- {T['about_datasource_1']}")
-            st.markdown(f"- {T['about_datasource_2']}")
-            st.markdown(f"- {T['about_datasource_3']}")
-            st.markdown(f"- {T['about_datasource_4']}")
+            st.markdown(f"#### {T['about_datasource_title']}"); st.markdown(f"- {T['about_datasource_1']}"); st.markdown(f"- {T['about_datasource_2']}"); st.markdown(f"- {T['about_datasource_3']}"); st.markdown(f"- {T['about_datasource_4']}")
     with col2:
         with st.container(border=True, height=280):
             st.markdown(f"#### {T['about_health_indicators_title']}")
             indicators = T['about_indicators_list']
             sub_col1, sub_col2 = st.columns(2)
             with sub_col1:
-                for item in indicators[:6]:
-                    st.markdown(f"- {item}")
+                for item in indicators[:6]: st.markdown(f"- {item}")
             with sub_col2:
-                for item in indicators[6:]:
-                    st.markdown(f"- {item}")
+                for item in indicators[6:]: st.markdown(f"- {item}")
     st.markdown(f"### {T['about_dev_team_title']}")
     with st.container(border=True):
         col1, col2 = st.columns([0.3, 0.7])
         with col1:
-            try:
-                st.image("gambar/lutfi.jpg", use_column_width=True)
-            except Exception:
-                st.warning("Gambar lutfi.jpg tidak ditemukan.")
+            try: st.image("gambar/lutfi.jpg", use_container_width=True)
+            except Exception: st.warning("Gambar lutfi.jpg tidak ditemukan.")
         with col2:
-            st.markdown(f"**Lutfi Julpian**")
-            st.markdown(f"_{T['about_developer']}_")
-            st.markdown("---")
-            st.markdown(f"**{T['about_advisor_1']}**")
-            st.markdown(f"**{T['about_advisor_2']}**")
+            st.markdown(f"**Lutfi Julpian**"); st.markdown(f"_{T['about_developer']}_")
+            st.markdown("---"); st.markdown(f"**{T['about_advisor_1']}**"); st.markdown(f"**{T['about_advisor_2']}**")
 
 # ==============================================================================
 # 3. FUNGSI UTAMA (MAIN) UNTUK MENJALANKAN APLIKASI
@@ -442,7 +450,7 @@ def main():
     atur_gaya()
     if 'lang' not in st.session_state: st.session_state.lang = 'id'
     
-    T = TRANSLATIONS[st.session_state.lang]
+    T = TRANSLATIONS.get(st.session_state.lang, TRANSLATIONS['id'])
     model, explainer, preprocessor, df = setup_resources()
     selected_page = atur_navigasi(T)
     

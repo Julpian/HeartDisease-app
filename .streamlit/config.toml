@@ -1,4 +1,17 @@
+# .streamlit/config.toml
+
 [theme]
-backgroundColor="#0ce8bc"
-secondaryBackgroundColor="#0ce8bc"
-textColor="#201e1e"
+# Warna utama untuk elemen interaktif (biru profesional)
+primaryColor = "#0d6efd"
+
+# Warna latar belakang utama aplikasi (abu-abu sangat terang)
+backgroundColor = "#F0F2F6"
+
+# Warna latar belakang untuk sidebar dan kontainer utama (putih bersih)
+secondaryBackgroundColor = "#E8F0FE"
+
+# Warna teks utama (hitam/abu-abu gelap agar mudah dibaca)
+textColor = "#31333F"
+
+# Jenis font
+font = "sans serif"
