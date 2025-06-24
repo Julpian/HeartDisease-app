@@ -25,7 +25,7 @@ st.set_page_config(
 )
 
 # ========================================================================================
-# [PERBAIKAN] - Memasukkan kembali semua kunci yang diperlukan
+# [PERBAIKAN] - Menambahkan kembali kunci untuk legenda risiko
 # ========================================================================================
 TRANSLATIONS = {
     'id': {
@@ -78,13 +78,10 @@ TRANSLATIONS = {
         'lime_analysis_title': "🔬 Penjelasan Faktor Risiko (Analisis LIME)",
         'lime_explanation': "Grafik di bawah ini menunjukkan faktor-faktor yang paling berpengaruh pada prediksi untuk pasien ini. Faktor dengan bar merah mendukung prediksi 'Sakit Jantung', sedangkan bar hijau menentangnya.",
         'lime_plot_title_prefix': "Penjelasan lokal untuk kelas", 'class_disease': "Penyakit",
-        
-        # KUNCI YANG DIPERBAIKI DAN DITAMBAHKAN KEMBALI
         'prob_explanation_title': "💡 Interpretasi Probabilitas",
         'prob_explanation_high': "Skor probabilitas pasien **({score:.1f}%)** berada di atas ambang batas risiko tinggi **(46%)**, sehingga diklasifikasikan sebagai **RISIKO TINGGI**.",
         'prob_explanation_medium': "Skor probabilitas pasien **({score:.1f}%)** berada di antara ambang batas risiko sedang **(25% - 45.9%)**, sehingga diklasifikasikan sebagai **RISIKO SEDANG**.",
         'prob_explanation_low': "Skor probabilitas pasien **({score:.1f}%)** berada di bawah ambang batas risiko sedang **(25%)**, sehingga diklasifikasikan sebagai **RISIKO RENDAH**.",
-        
         'about_what_is_it_title': "🎯 Apa itu aplikasi ini?",
         'about_what_is_it_desc': "Aplikasi prediksi penyakit jantung ini menggunakan algoritma machine learning canggih untuk menilai risiko penyakit jantung berdasarkan berbagai indikator kesehatan pasien.",
         'about_main_features_title': "✨ Fitur Utama",
@@ -104,6 +101,15 @@ TRANSLATIONS = {
         'about_developer': "Pengembang",
         'about_advisor_1': "Dosen Pembimbing 1: Irani Hoeronis S.Si, M.T., CRP., CIISA.",
         'about_advisor_2': "Dosen Pembimbing 2: Siti Yulianti S.T., M.Kom.",
+        
+        # KUNCI BARU UNTUK LEGENDA
+        'risk_key_title': "🔑 Kunci Kategori Risiko",
+        'risk_key_low_title': "🟢 Risiko Rendah",
+        'risk_key_low_desc': "Probabilitas di bawah 25%",
+        'risk_key_medium_title': "🟡 Risiko Sedang",
+        'risk_key_medium_desc': "Probabilitas antara 25% - 45.9%",
+        'risk_key_high_title': "🔴 Risiko Tinggi",
+        'risk_key_high_desc': "Probabilitas 46% atau lebih",
     },
     'en': {
         'banner_title': "Advanced Heart Disease Prediction System",
@@ -155,13 +161,10 @@ TRANSLATIONS = {
         'lime_analysis_title': "🔬 Risk Factor Explanation (LIME Analysis)",
         'lime_explanation': "The plot below shows the factors that most influenced this prediction. Features with red bars support the 'Heart Disease' prediction, while green bars oppose it.",
         'lime_plot_title_prefix': "Local explanation for class", 'class_disease': "Disease",
-
-        # KEYS FIXED AND RE-ADDED
         'prob_explanation_title': "💡 Probability Interpretation",
         'prob_explanation_high': "The patient's probability score **({score:.1f}%)** is above the high-risk threshold **(46%)**, thus classified as **HIGH RISK**.",
         'prob_explanation_medium': "The patient's probability score **({score:.1f}%)** is within the medium-risk threshold **(25% - 45.9%)**, thus classified as **MEDIUM RISK**.",
         'prob_explanation_low': "The patient's probability score **({score:.1f}%)** is below the medium-risk threshold **(25%)**, thus classified as **LOW RISK**.",
-        
         'about_what_is_it_title': "🎯 What is this application?",
         'about_what_is_it_desc': "This heart disease prediction application uses an advanced machine learning algorithm to assess heart disease risk based on various patient health indicators.",
         'about_main_features_title': "✨ Main Features",
@@ -181,6 +184,15 @@ TRANSLATIONS = {
         'about_developer': "Developer",
         'about_advisor_1': "Advisor 1: Irani Hoeronis S.Si, M.T., CRP., CIISA.",
         'about_advisor_2': "Advisor 2: Siti Yulianti S.T., M.Kom.",
+
+        # NEW KEYS FOR LEGEND
+        'risk_key_title': "🔑 Risk Category Key",
+        'risk_key_low_title': "🟢 Low Risk",
+        'risk_key_low_desc': "Probability below 25%",
+        'risk_key_medium_title': "🟡 Medium Risk",
+        'risk_key_medium_desc': "Probability between 25% - 45.9%",
+        'risk_key_high_title': "🔴 High Risk",
+        'risk_key_high_desc': "Probability 46% or higher",
     }
 }
 
@@ -192,7 +204,7 @@ def atur_gaya():
     [data-testid="stSidebar"] { background-color: #1ff0b3; }
     .stButton button { width: 100%; border-radius: 8px; background-color: #4CAF50; color: white; } 
     .stSpinner > div > div { border-top-color: #4CAF50; }
-    .banner { background: linear-gradient(135deg, #0CE8BC 0%, #764ba2 100%); color: white; padding: 30px 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; }
+    .banner { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; }
     .banner-title { font-size: 36px; font-weight: bold; display: flex; align-items: center; justify-content: center; }
     .banner-icon { font-size: 40px; margin-right: 15px; }
     .banner-subtitle { font-size: 16px; margin-top: 10px; opacity: 0.9; }
@@ -248,7 +260,7 @@ def create_gauge_chart(probability_score, T):
         mode = "gauge+number+delta", value = probability_score, title = {'text': T['risk_level'], 'font': {'size': 20}},
         number = {'suffix': "%", 'font': {'size': 16}},
         gauge = {'axis': {'range': [None, 100], 'tickwidth': 1, 'tickcolor': "darkblue"}, 'bar': {'color': "rgba(0,0,0,0)"},
-                 'steps': [{'range': [0, 46], 'color': 'green'}, {'range': [46, 75], 'color': 'yellow'}, {'range': [75, 100], 'color': 'red'}],
+                 'steps': [{'range': [0, 25], 'color': 'green'}, {'range': [25, 46], 'color': 'yellow'}, {'range': [46, 100], 'color': 'red'}],
                  'threshold': {'line': {'color': "red", 'width': 4}, 'thickness': 0.9, 'value': probability_score}},
         domain = {'x': [0, 1], 'y': [0, 1]}))
     fig.update_layout(height=250, margin=dict(l=10, r=10, t=50, b=10))
@@ -305,8 +317,31 @@ def tampilkan_halaman_home(T, df):
     st.markdown("<br>", unsafe_allow_html=True)
     st.error(f"**{T['home_disclaimer_title']}**\n{T['home_disclaimer_md']}")
 
+# ==========================================================
+# [MODIFIKASI] - Menambahkan legenda risiko di atas form
+# ==========================================================
 def tampilkan_halaman_prediksi(T, model, explainer, preprocessor):
     st.info(T['form_intro'])
+
+    # --- Legenda Kategori Risiko ---
+    st.markdown(f"**{T['risk_key_title']}**")
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        with st.container(border=True):
+            st.markdown(T['risk_key_low_title'])
+            st.write(T['risk_key_low_desc'])
+    with col2:
+        with st.container(border=True):
+            st.markdown(T['risk_key_medium_title'])
+            st.write(T['risk_key_medium_desc'])
+    with col3:
+        with st.container(border=True):
+            st.markdown(T['risk_key_high_title'])
+            st.write(T['risk_key_high_desc'])
+    
+    st.markdown("<br>", unsafe_allow_html=True)
+    
+    # --- Formulir Input Pasien ---
     with st.container(border=True):
         with st.form("prediction_form"):
             st.header(T['patient_data_header'])
@@ -318,6 +353,7 @@ def tampilkan_halaman_prediksi(T, model, explainer, preprocessor):
             with col3:
                 max_hr = st.number_input(T['max_hr_label'], min_value=50, max_value=220, value=150, step=1); exercise_angina = st.selectbox(T['exercise_angina_label'], ['Y', 'N']); oldpeak = st.number_input(T['oldpeak_label'], min_value=-3.0, max_value=7.0, value=1.0, step=0.1, format="%.1f"); st_slope = st.selectbox(T['st_slope_label'], ['Up', 'Flat', 'Down']); resting_ecg = st.selectbox(T['resting_ecg_label'], ['Normal', 'ST', 'LVH'])
             submitted = st.form_submit_button(T['predict_button'], use_container_width=True, type="primary")
+            
     if submitted:
         with st.spinner(T['spinner_text']):
             input_data = pd.DataFrame({'Age': [age], 'Sex': [sex], 'ChestPainType': [chest_pain_type], 'RestingBP': [resting_bp], 'Cholesterol': [cholesterol], 'FastingBS': [fasting_bs], 'RestingECG': [resting_ecg], 'MaxHR': [max_hr], 'ExerciseAngina': [exercise_angina], 'Oldpeak': [oldpeak], 'ST_Slope': [st_slope]})
@@ -354,20 +390,15 @@ def tampilkan_halaman_prediksi(T, model, explainer, preprocessor):
             ax.set_title(f"{T['lime_plot_title_prefix']} {T['class_disease']}", fontsize=15); st.pyplot(fig, use_container_width=True); plt.clf()
 
 def tampilkan_halaman_about(T):
-    # --- Bagian 1: Apa itu aplikasi ini? ---
     st.markdown(f"### {T['about_what_is_it_title']}")
     with st.container(border=True):
         st.write(T['about_what_is_it_desc'])
-
-    # --- Bagian 2: Fitur Utama ---
     st.markdown(f"### {T['about_main_features_title']}")
     with st.container(border=True):
         st.markdown(f"- {T['about_feature_1']}")
         st.markdown(f"- {T['about_feature_2']}")
         st.markdown(f"- {T['about_feature_3']}")
         st.markdown(f"- {T['about_feature_4']}")
-
-    # --- Bagian 3: Informasi Dataset ---
     st.markdown(f"### {T['about_dataset_info_title']}")
     col1, col2 = st.columns(2)
     with col1:
@@ -388,8 +419,6 @@ def tampilkan_halaman_about(T):
             with sub_col2:
                 for item in indicators[6:]:
                     st.markdown(f"- {item}")
-    
-    # --- Bagian 4: Tim Pengembang & Pembimbing ---
     st.markdown(f"### {T['about_dev_team_title']}")
     with st.container(border=True):
         col1, col2 = st.columns([0.3, 0.7])
@@ -404,7 +433,6 @@ def tampilkan_halaman_about(T):
             st.markdown("---")
             st.markdown(f"**{T['about_advisor_1']}**")
             st.markdown(f"**{T['about_advisor_2']}**")
-
 
 # ==============================================================================
 # 3. FUNGSI UTAMA (MAIN) UNTUK MENJALANKAN APLIKASI
