@@ -25,7 +25,7 @@ st.set_page_config(
 )
 
 # ========================================================================================
-# [PERBAIKAN] - Menambahkan kembali kunci 'about_developer' yang hilang
+# [PERBAIKAN] - Memasukkan kembali semua kunci yang diperlukan
 # ========================================================================================
 TRANSLATIONS = {
     'id': {
@@ -79,6 +79,12 @@ TRANSLATIONS = {
         'lime_explanation': "Grafik di bawah ini menunjukkan faktor-faktor yang paling berpengaruh pada prediksi untuk pasien ini. Faktor dengan bar merah mendukung prediksi 'Sakit Jantung', sedangkan bar hijau menentangnya.",
         'lime_plot_title_prefix': "Penjelasan lokal untuk kelas", 'class_disease': "Penyakit",
         
+        # KUNCI YANG DIPERBAIKI DAN DITAMBAHKAN KEMBALI
+        'prob_explanation_title': "💡 Interpretasi Probabilitas",
+        'prob_explanation_high': "Skor probabilitas pasien **({score:.1f}%)** berada di atas ambang batas risiko tinggi **(46%)**, sehingga diklasifikasikan sebagai **RISIKO TINGGI**.",
+        'prob_explanation_medium': "Skor probabilitas pasien **({score:.1f}%)** berada di antara ambang batas risiko sedang **(25% - 45.9%)**, sehingga diklasifikasikan sebagai **RISIKO SEDANG**.",
+        'prob_explanation_low': "Skor probabilitas pasien **({score:.1f}%)** berada di bawah ambang batas risiko sedang **(25%)**, sehingga diklasifikasikan sebagai **RISIKO RENDAH**.",
+        
         'about_what_is_it_title': "🎯 Apa itu aplikasi ini?",
         'about_what_is_it_desc': "Aplikasi prediksi penyakit jantung ini menggunakan algoritma machine learning canggih untuk menilai risiko penyakit jantung berdasarkan berbagai indikator kesehatan pasien.",
         'about_main_features_title': "✨ Fitur Utama",
@@ -95,7 +101,7 @@ TRANSLATIONS = {
         'about_health_indicators_title': "📈 Indikator Kesehatan",
         'about_indicators_list': ["Usia", "Jenis Kelamin", "Tipe Nyeri Dada", "Tekanan Darah Istirahat", "Kolesterol", "Gula Darah Puasa", "Hasil EKG Istirahat", "Detak Jantung Maksimum", "Angina Akibat Olahraga", "Oldpeak", "Kemiringan ST"],
         'about_dev_team_title': "👥 Tim Pengembang & Pembimbing",
-        'about_developer': "Pengembang",  # KUNCI YANG DIPERBAIKI
+        'about_developer': "Pengembang",
         'about_advisor_1': "Dosen Pembimbing 1: Irani Hoeronis S.Si, M.T., CRP., CIISA.",
         'about_advisor_2': "Dosen Pembimbing 2: Siti Yulianti S.T., M.Kom.",
     },
@@ -149,6 +155,12 @@ TRANSLATIONS = {
         'lime_analysis_title': "🔬 Risk Factor Explanation (LIME Analysis)",
         'lime_explanation': "The plot below shows the factors that most influenced this prediction. Features with red bars support the 'Heart Disease' prediction, while green bars oppose it.",
         'lime_plot_title_prefix': "Local explanation for class", 'class_disease': "Disease",
+
+        # KEYS FIXED AND RE-ADDED
+        'prob_explanation_title': "💡 Probability Interpretation",
+        'prob_explanation_high': "The patient's probability score **({score:.1f}%)** is above the high-risk threshold **(46%)**, thus classified as **HIGH RISK**.",
+        'prob_explanation_medium': "The patient's probability score **({score:.1f}%)** is within the medium-risk threshold **(25% - 45.9%)**, thus classified as **MEDIUM RISK**.",
+        'prob_explanation_low': "The patient's probability score **({score:.1f}%)** is below the medium-risk threshold **(25%)**, thus classified as **LOW RISK**.",
         
         'about_what_is_it_title': "🎯 What is this application?",
         'about_what_is_it_desc': "This heart disease prediction application uses an advanced machine learning algorithm to assess heart disease risk based on various patient health indicators.",
@@ -166,7 +178,7 @@ TRANSLATIONS = {
         'about_health_indicators_title': "📈 Health Indicators",
         'about_indicators_list': ["Age", "Sex", "Chest Pain Type", "Resting Blood Pressure", "Cholesterol", "Fasting Blood Sugar", "Resting ECG", "Maximum Heart Rate", "Exercise Angina", "Oldpeak", "ST Slope"],
         'about_dev_team_title': "👥 Development & Advisory Team",
-        'about_developer': "Developer", # KEY FIXED
+        'about_developer': "Developer",
         'about_advisor_1': "Advisor 1: Irani Hoeronis S.Si, M.T., CRP., CIISA.",
         'about_advisor_2': "Advisor 2: Siti Yulianti S.T., M.Kom.",
     }
@@ -180,7 +192,7 @@ def atur_gaya():
     [data-testid="stSidebar"] { background-color: #1ff0b3; }
     .stButton button { width: 100%; border-radius: 8px; background-color: #4CAF50; color: white; } 
     .stSpinner > div > div { border-top-color: #4CAF50; }
-    .banner { background: linear-gradient(135deg, #667eea 0%, #0CE8BC 100%); color: white; padding: 30px 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; }
+    .banner { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; }
     .banner-title { font-size: 36px; font-weight: bold; display: flex; align-items: center; justify-content: center; }
     .banner-icon { font-size: 40px; margin-right: 15px; }
     .banner-subtitle { font-size: 16px; margin-top: 10px; opacity: 0.9; }
@@ -383,7 +395,7 @@ def tampilkan_halaman_about(T):
         col1, col2 = st.columns([0.3, 0.7])
         with col1:
             try:
-                st.image("gambar/lutfi.jpg", use_container_width=True)  # ← diperbaiki di sini
+                st.image("gambar/lutfi.jpg", use_column_width=True)
             except Exception:
                 st.warning("Gambar lutfi.jpg tidak ditemukan.")
         with col2:
