@@ -42,12 +42,12 @@ TRANSLATIONS = {
         'positive_cases_title': "Kasus Sakit Jantung", 'positive_cases_desc': "Kasus Positif",
         'healthy_cases_title': "Kasus Sehat", 'healthy_cases_desc': "Kasus Negatif",
         'input_guide_title': "📘 Panduan Input Fitur",
-        'age_title': "🎂 Usia (Age)", 'age_range': "Rentang data pada model: **28 - 77 tahun**.",
-        'resting_bp_title': "🩸 Tekanan Darah (RestingBP)", 'resting_bp_range': "Rentang data: **0 - 200 mm Hg**.",
-        'cholesterol_title': "🧪 Kolesterol (Cholesterol)", 'cholesterol_range': "Rentang data: **0 - 603 mg/dl**.",
-        'cholesterol_note': "💡 **Info**: Nilai 0 menandakan data hilang. Nilai normal klinis umumnya **< 200 mg/dl**.",
-        'max_hr_title': "❤️‍🔥 Detak Jantung Maks. (MaxHR)", 'max_hr_range': "Rentang data: **60 - 202 bpm**.",
-        'oldpeak_title': "📈 Oldpeak", 'oldpeak_range': "Rentang data: **-2.6 - 6.2**.",
+        'age_title': "🎂 Usia (Age)", 'age_range': "Rentang data pada model: **15 - 80 tahun**.",
+        'resting_bp_title': "🩸 Tekanan Darah (RestingBP)", 'resting_bp_range': "Rentang data: **80 - 200 mm Hg**.",
+        'cholesterol_title': "🧪 Kolesterol (Cholesterol)", 'cholesterol_range': "Rentang data: **100 - 600 mg/dl**.",
+        'cholesterol_note': "💡 **Info** Nilai normal klinis umumnya **< 200 mg/dl**.",
+        'max_hr_title': "❤️‍🔥 Detak Jantung Maks. (MaxHR)", 'max_hr_range': "Rentang data: **70 - 205 bpm**.",
+        'oldpeak_title': "📈 Oldpeak", 'oldpeak_range': "Rentang data: **-2.6 - 6.5**.",
         'categorical_title': "🗂️ Fitur Pilihan",
         'categorical_desc': "Untuk fitur seperti *Jenis Kelamin* atau *Tipe Nyeri Dada*, Anda hanya perlu memilih dari opsi yang tersedia.",
         'home_disclaimer_title': "⚠️ Disclaimer Penting",
@@ -88,10 +88,11 @@ TRANSLATIONS = {
         'about_feature_4': "**Ramah Pengguna:** Antarmuka yang sederhana untuk skrining kesehatan yang mudah.",
         'about_dataset_info_title': "📋 Informasi Dataset",
         'about_datasource_title': "📊 Sumber Data",
-        'about_datasource_1': "**Sumber:** Kaggle - Heart Failure Prediction",
+        'about_datasource_1': "**Sumber:** Kaggle - Heart Failure Prediction (https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction)",
         'about_datasource_2': "**Rekaman:** 918 pasien",
         'about_datasource_3': "**Fitur:** 11 indikator medis",
-        'about_datasource_4': "**Akurasi Model:** ~90%",
+        'about_datasource_4': "**Recall:** ~92%",
+        'about_datasource_5': "**Akurasi Model:** ~90%",
         'about_health_indicators_title': "📈 Indikator Kesehatan",
         'about_indicators_list': ["Usia", "Jenis Kelamin", "Tipe Nyeri Dada", "Tekanan Darah Istirahat", "Kolesterol", "Gula Darah Puasa", "Hasil EKG Istirahat", "Detak Jantung Maksimum", "Angina Akibat Olahraga", "Oldpeak", "Kemiringan ST"],
         'about_dev_team_title': "👥 Tim Pengembang & Pembimbing",
@@ -123,12 +124,12 @@ TRANSLATIONS = {
     'positive_cases_title': "Heart Disease Cases", 'positive_cases_desc': "Positive Cases",
     'healthy_cases_title': "Healthy Cases", 'healthy_cases_desc': "Negative Cases",
     'input_guide_title': "📘 Feature Input Guide",
-    'age_title': "🎂 Age", 'age_range': "Model data range: **28 - 77 years**.",
-    'resting_bp_title': "🩸 Resting Blood Pressure", 'resting_bp_range': "Data range: **0 - 200 mm Hg**.",
-    'cholesterol_title': "🧪 Cholesterol", 'cholesterol_range': "Data range: **0 - 603 mg/dl**.",
-    'cholesterol_note': "💡 **Info**: A value of 0 indicates missing data. Normal clinical value is typically **< 200 mg/dl**.",
-    'max_hr_title': "❤️‍🔥 Max Heart Rate", 'max_hr_range': "Data range: **60 - 202 bpm**.",
-    'oldpeak_title': "📈 Oldpeak", 'oldpeak_range': "Data range: **-2.6 - 6.2**.",
+    'age_title': "🎂 Age", 'age_range': "Model data range: **15 - 80 years**.",
+    'resting_bp_title': "🩸 Resting Blood Pressure", 'resting_bp_range': "Data range: **80 - 200 mm Hg**.",
+    'cholesterol_title': "🧪 Cholesterol", 'cholesterol_range': "Data range: **100 - 600 mg/dl**.",
+    'cholesterol_note': "💡 **Info**: Normal clinical value is typically **< 200 mg/dl**.",
+    'max_hr_title': "❤️‍🔥 Max Heart Rate", 'max_hr_range': "Data range: **70 - 205 bpm**.",
+    'oldpeak_title': "📈 Oldpeak", 'oldpeak_range': "Data range: **-2.6 - 6.5**.",
     'categorical_title': "🗂️ Categorical Features",
     'categorical_desc': "For features like *Gender* or *Chest Pain Type*, simply select from the available options.",
     'home_disclaimer_title': "⚠️ Important Disclaimer",
@@ -169,10 +170,11 @@ TRANSLATIONS = {
     'about_feature_4': "**User-Friendly:** Simple interface for easy health screening.",
     'about_dataset_info_title': "📋 Dataset Information",
     'about_datasource_title': "📊 Data Source",
-    'about_datasource_1': "**Source:** Kaggle - Heart Failure Prediction",
+    'about_datasource_1': "**Source:** Kaggle - Heart Failure Prediction (https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction)",
     'about_datasource_2': "**Records:** 918 patients",
     'about_datasource_3': "**Features:** 11 medical indicators",
-    'about_datasource_4': "**Model Accuracy:** ~90%",
+    'about_datasource_4': "**Recall:** ~92%",
+    'about_datasource_5': "**Model Accuracy:** ~90%",
     'about_health_indicators_title': "📈 Health Indicators",
     'about_indicators_list': ["Age", "Gender", "Chest Pain Type", "Resting Blood Pressure", "Cholesterol", "Fasting Blood Sugar", "Resting ECG", "Max Heart Rate", "Exercise-Induced Angina", "Oldpeak", "ST Slope"],
     'about_dev_team_title': "👥 Development Team & Advisors",
@@ -374,9 +376,9 @@ def tampilkan_halaman_prediksi(T, model, explainer, preprocessor):
             with col1:
                 age = st.number_input(T['age_label'], min_value=15, max_value=80, value=58, step=1); sex = st.selectbox(T['sex_label'], ['M', 'F']); chest_pain_type = st.selectbox(T['chest_pain_type_label'], ['ATA', 'NAP', 'ASY', 'TA'])
             with col2:
-                resting_bp = st.number_input(T['resting_bp_label'], min_value=50, max_value=250, value=130, step=1); cholesterol = st.number_input(T['cholesterol_label'], min_value=0, max_value=610, value=240, step=1); fasting_bs = st.selectbox(T['fasting_bs_label'], [0, 1], format_func=lambda x: "Ya" if x == 1 else "Tidak")
+                resting_bp = st.number_input(T['resting_bp_label'], min_value=80, max_value=200, value=130, step=1); cholesterol = st.number_input(T['cholesterol_label'], min_value=100, max_value=600, value=240, step=1); fasting_bs = st.selectbox(T['fasting_bs_label'], [0, 1], format_func=lambda x: "Ya" if x == 1 else "Tidak")
             with col3:
-                max_hr = st.number_input(T['max_hr_label'], min_value=50, max_value=220, value=150, step=1); exercise_angina = st.selectbox(T['exercise_angina_label'], ['Y', 'N']); oldpeak = st.number_input(T['oldpeak_label'], min_value=-3.0, max_value=7.0, value=1.0, step=0.1, format="%.1f"); st_slope = st.selectbox(T['st_slope_label'], ['Up', 'Flat', 'Down']); resting_ecg = st.selectbox(T['resting_ecg_label'], ['Normal', 'ST', 'LVH'])
+                max_hr = st.number_input(T['max_hr_label'], min_value=70, max_value=205, value=150, step=1); exercise_angina = st.selectbox(T['exercise_angina_label'], ['Y', 'N']); oldpeak = st.number_input(T['oldpeak_label'], min_value=-2.0, max_value=6.5, value=1.0, step=0.1, format="%.1f"); st_slope = st.selectbox(T['st_slope_label'], ['Up', 'Flat', 'Down']); resting_ecg = st.selectbox(T['resting_ecg_label'], ['Normal', 'ST', 'LVH'])
             submitted = st.form_submit_button(T['predict_button'], use_container_width=True, type="primary")
     if submitted:
         with st.spinner(T['spinner_text']):
@@ -422,7 +424,7 @@ def tampilkan_halaman_about(T):
     col1, col2 = st.columns(2)
     with col1:
         with st.container(border=True, height=280):
-            st.markdown(f"#### {T['about_datasource_title']}"); st.markdown(f"- {T['about_datasource_1']}"); st.markdown(f"- {T['about_datasource_2']}"); st.markdown(f"- {T['about_datasource_3']}"); st.markdown(f"- {T['about_datasource_4']}")
+            st.markdown(f"#### {T['about_datasource_title']}"); st.markdown(f"- {T['about_datasource_1']}"); st.markdown(f"- {T['about_datasource_2']}"); st.markdown(f"- {T['about_datasource_3']}"); st.markdown(f"- {T['about_datasource_4']}"); st.markdown(f"- {T['about_datasource_5']}")
     with col2:
         with st.container(border=True, height=280):
             st.markdown(f"#### {T['about_health_indicators_title']}")
@@ -434,9 +436,9 @@ def tampilkan_halaman_about(T):
                 for item in indicators[6:]: st.markdown(f"- {item}")
     st.markdown(f"### {T['about_dev_team_title']}")
     with st.container(border=True):
-        col1, col2 = st.columns([0.3, 0.7])
+        col1, col2 = st.columns([0.2, 0.7])
         with col1:
-            try: st.image("gambar/lutfi.jpg", use_container_width=True)
+            try: st.image("gambar/lutfi.jpg", width=250)
             except Exception: st.warning("Gambar lutfi.jpg tidak ditemukan.")
         with col2:
             st.markdown(f"**Lutfi Julpian**"); st.markdown(f"_{T['about_developer']}_")
