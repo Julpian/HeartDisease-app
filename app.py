@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 import plotly.graph_objects as go
 import plotly.express as px
+import seaborn as sns
 
 # ==============================================================================
 # 1. KONFIGURASI, DATA STATIS, DAN GAYA (CSS)
@@ -106,88 +107,139 @@ TRANSLATIONS = {
         'risk_key_medium_desc': "Probabilitas 25% - 45.9%",
         'risk_key_high_title': "🔴 Risiko Tinggi",
         'risk_key_high_desc': "Probabilitas ≥ 46%",
+        # ... (kunci-kunci yang sudah ada)
+        'data_analysis_title': "Visualisasi Analisis Data",
+        'class_disease': "Sakit Jantung",
+        'class_healthy': "Sehat",
+
+        'tab_target_dist': "Distribusi Target",
+        'tab_age_dist': "Distribusi Usia",
+        'tab_feature_relation': "Hubungan Fitur",
+        'tab_correlation': "Korelasi Fitur",
+
+        'target_dist_title': "Distribusi Kelas Target",
+        'target_dist_desc': "Grafik ini menunjukkan proporsi jumlah pasien yang didiagnosis menderita penyakit jantung dibandingkan dengan yang sehat dalam dataset.",
+        'target_dist_pie_title': "Proporsi Pasien: Sakit Jantung vs. Sehat",
+
+        'age_dist_title': "Distribusi Usia Pasien",
+        'age_dist_desc': "Histogram ini menunjukkan sebaran usia pasien. Anda dapat melihat kelompok usia mana yang paling banyak terwakili dalam data, dipisahkan berdasarkan status kesehatan mereka.",
+        'age_dist_hist_title': "Distribusi Usia Berdasarkan Status Penyakit Jantung",
+
+        'feature_relation_title': "Hubungan Antara Fitur dan Diagnosis",
+        'feature_relation_desc': "Grafik di bawah ini mengeksplorasi bagaimana fitur-fitur tertentu seperti kolesterol dan jenis kelamin berhubungan dengan kemungkinan diagnosis penyakit jantung.",
+        'chol_vs_disease_title': "Distribusi Kolesterol vs. Penyakit Jantung",
+        'sex_vs_disease_title': "Jumlah Kasus Berdasarkan Jenis Kelamin",
+
+        'correlation_title': "Matriks Korelasi Fitur Numerik",
+        'correlation_desc': "Heatmap ini menunjukkan korelasi antara berbagai fitur numerik. Nilai mendekati 1 (merah tua) atau -1 (biru tua) menunjukkan hubungan yang kuat, sedangkan nilai mendekati 0 (putih) menunjukkan hubungan yang lemah.",
+        'correlation_heatmap_title': "Heatmap Korelasi Fitur"
     },
     'en': { # English translations need to be fully populated for a real app
         'banner_title': "Heart Disease Prediction System",
-    'banner_subtitle': "Powered by Machine Learning & AI",
-    'nav_home': "🏠 Home", 'nav_predict': "🔍 Predict", 'nav_about': "ℹ️ About",
-    'nav_title': "📌 Navigation", 'lang_select_title': "Select Language",
-    'model_info_title': "🎯 Model Info",
-    'model_info_algo': "Algorithm: Random Forest",
-    'model_info_recall': "Recall: 92%",
-    'model_info_accuracy': "Accuracy: 90%",
-    'model_info_features': "Features: 11 Medical Indicators",
-    'home_intro_new': "Harness the power of artificial intelligence to assess heart disease risk with precision and confidence.",
-    'dataset_overview_title': "📊 Dataset Overview",
-    'total_samples_title': "Total Samples", 'total_samples_desc': "Patient Records",
-    'features_title': "Features", 'features_desc': "Health Indicators",
-    'positive_cases_title': "Heart Disease Cases", 'positive_cases_desc': "Positive Cases",
-    'healthy_cases_title': "Healthy Cases", 'healthy_cases_desc': "Negative Cases",
-    'input_guide_title': "📘 Feature Input Guide",
-    'age_title': "🎂 Age", 'age_range': "Model data range: **15 - 80 years**.",
-    'resting_bp_title': "🩸 Resting Blood Pressure", 'resting_bp_range': "Data range: **80 - 200 mm Hg**.",
-    'cholesterol_title': "🧪 Cholesterol", 'cholesterol_range': "Data range: **100 - 600 mg/dl**.",
-    'cholesterol_note': "💡 **Info**: Normal clinical value is typically **< 200 mg/dl**.",
-    'max_hr_title': "❤️‍🔥 Max Heart Rate", 'max_hr_range': "Data range: **70 - 205 bpm**.",
-    'oldpeak_title': "📈 Oldpeak", 'oldpeak_range': "Data range: **-2.6 - 6.5**.",
-    'categorical_title': "🗂️ Categorical Features",
-    'categorical_desc': "For features like *Gender* or *Chest Pain Type*, simply select from the available options.",
-    'home_disclaimer_title': "⚠️ Important Disclaimer",
-    'home_disclaimer_md': "This app is a prototype for educational purposes and **must not be used for actual medical diagnosis**. Predictions do not replace professional medical consultation.",
-    'form_intro': "Please fill in the patient's data below accurately to get a prediction.",
-    'patient_data_header': "🩺 Patient Data",
-    'age_label': "Age", 'sex_label': "Gender", 'chest_pain_type_label': "Chest Pain Type",
-    'resting_bp_label': "Resting Blood Pressure", 'cholesterol_label': "Cholesterol",
-    'fasting_bs_label': "Fasting Blood Sugar > 120 mg/dl?", 'resting_ecg_label': "Resting ECG Result",
-    'max_hr_label': "Maximum Heart Rate", 'exercise_angina_label': "Exercise-Induced Angina?",
-    'oldpeak_label': "Oldpeak", 'st_slope_label': "ST Slope",
-    'predict_button': "🧠 Run Prediction & Analysis", 'spinner_text': "🔄 Analyzing data...",
-    'result_header': "📊 AI Analysis Results",
-    'risk_score': "Risk Score", 'risk_level': "Risk Level", 'recommendation': "Recommendation",
-    'result_low_risk': "LOW RISK", 'result_medium_risk': "MEDIUM RISK", 'result_high_risk': "HIGH RISK",
-    'recommendation_low': "Continue healthy lifestyle.",
-    'recommendation_medium': "Recommended to consult a doctor for monitoring.",
-    'recommendation_high': "IMMEDIATELY consult a cardiologist.",
-    'probability_breakdown': "🔗 Probability Breakdown",
-    'risk_distribution': "Risk Probability Distribution",
-    'no_disease': "No Heart Disease", 'disease': "Heart Disease",
-    'model_confidence_title': "🎯 Model Confidence",
-    'prediction_confidence_label': "Prediction Confidence",
-    'no_disease_prob': "No Disease Probability", 'disease_prob': "Heart Disease Probability",
-    'lime_analysis_title': "🔬 Risk Factor Explanation (LIME Analysis)",
-    'lime_explanation': "The chart below shows the most influential factors for this patient's prediction. Red bars support 'Heart Disease' prediction, while green bars oppose it.",
-    'lime_plot_title_prefix': "Local explanation for class", 'class_disease': "Disease",
-    'prob_explanation_title': "💡 Probability Interpretation",
-    'prob_explanation_high': "The patient's probability score **({score:.1f}%)** is above the high-risk threshold **(46%)**, so classified as **HIGH RISK**.",
-    'prob_explanation_medium': "The patient's probability score **({score:.1f}%)** is within the medium-risk threshold **(25% - 45.9%)**, so classified as **MEDIUM RISK**.",
-    'prob_explanation_low': "The patient's probability score **({score:.1f}%)** is below the medium-risk threshold **(25%)**, so classified as **LOW RISK**.",
-    'about_what_is_it_title': "🎯 What is this app?",
-    'about_what_is_it_desc': "This heart disease prediction app uses advanced machine learning algorithms to assess the risk of heart disease based on various patient health indicators.",
-    'about_main_features_title': "✨ Key Features",
-    'about_feature_1': "**AI-Powered Prediction:** Uses Random Forest algorithm for high prediction accuracy.",
-    'about_feature_2': "**Interactive Analysis:** Explore medical data through intuitive visualizations.",
-    'about_feature_3': "**Personalized Risk Assessment:** Get a personalized evaluation of heart disease risk.",
-    'about_feature_4': "**User-Friendly:** Simple interface for easy health screening.",
-    'about_dataset_info_title': "📋 Dataset Information",
-    'about_datasource_title': "📊 Data Source",
-    'about_datasource_1': "**Source:** Kaggle - Heart Failure Prediction (https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction)",
-    'about_datasource_2': "**Records:** 918 patients",
-    'about_datasource_3': "**Features:** 11 medical indicators",
-    'about_datasource_4': "**Recall:** ~92%",
-    'about_datasource_5': "**Model Accuracy:** ~90%",
-    'about_health_indicators_title': "📈 Health Indicators",
-    'about_indicators_list': ["Age", "Gender", "Chest Pain Type", "Resting Blood Pressure", "Cholesterol", "Fasting Blood Sugar", "Resting ECG", "Max Heart Rate", "Exercise-Induced Angina", "Oldpeak", "ST Slope"],
-    'about_dev_team_title': "👥 Development Team & Advisors",
-    'about_developer': "Developer",
-    'about_advisor_1': "Advisor 1: Irani Hoeronis S.Si, M.T., CRP., CIISA.",
-    'about_advisor_2': "Advisor 2: Siti Yulianti S.T., M.Kom.",
-    'risk_key_title': "🔑 Risk Category Key",
-    'risk_key_low_title': "🟢 Low Risk",
-    'risk_key_low_desc': "Probability < 25%",
-    'risk_key_medium_title': "🟡 Medium Risk",
-    'risk_key_medium_desc': "Probability 25% - 45.9%",
-    'risk_key_high_title': "🔴 High Risk",
-    'risk_key_high_desc': "Probability ≥ 46%",
+        'banner_subtitle': "Powered by Machine Learning & AI",
+        'nav_home': "🏠 Home", 'nav_predict': "🔍 Predict", 'nav_about': "ℹ️ About",
+        'nav_title': "📌 Navigation", 'lang_select_title': "Select Language",
+        'model_info_title': "🎯 Model Info",
+        'model_info_algo': "Algorithm: Random Forest",
+        'model_info_recall': "Recall: 92%",
+        'model_info_accuracy': "Accuracy: 90%",
+        'model_info_features': "Features: 11 Medical Indicators",
+        'home_intro_new': "Harness the power of artificial intelligence to assess heart disease risk with precision and confidence.",
+        'dataset_overview_title': "📊 Dataset Overview",
+        'total_samples_title': "Total Samples", 'total_samples_desc': "Patient Records",
+        'features_title': "Features", 'features_desc': "Health Indicators",
+        'positive_cases_title': "Heart Disease Cases", 'positive_cases_desc': "Positive Cases",
+        'healthy_cases_title': "Healthy Cases", 'healthy_cases_desc': "Negative Cases",
+        'input_guide_title': "📘 Feature Input Guide",
+        'age_title': "🎂 Age", 'age_range': "Model data range: **15 - 80 years**.",
+        'resting_bp_title': "🩸 Resting Blood Pressure", 'resting_bp_range': "Data range: **80 - 200 mm Hg**.",
+        'cholesterol_title': "🧪 Cholesterol", 'cholesterol_range': "Data range: **100 - 600 mg/dl**.",
+        'cholesterol_note': "💡 **Note** Clinical normal value is usually **< 200 mg/dl**.",
+        'max_hr_title': "❤️‍🔥 Max Heart Rate", 'max_hr_range': "Data range: **70 - 205 bpm**.",
+        'oldpeak_title': "📈 Oldpeak", 'oldpeak_range': "Data range: **-2.6 - 6.5**.",
+        'categorical_title': "🗂️ Categorical Features",
+        'categorical_desc': "For features like *Sex* or *Chest Pain Type*, just select from the available options.",
+        'home_disclaimer_title': "⚠️ Important Disclaimer",
+        'home_disclaimer_md': "This application is a prototype for educational purposes and **should not be used for real medical diagnosis**. Predictions do not replace consultation with a healthcare professional.",
+        'form_intro': "Please fill in the patient's data below accurately to receive a prediction.",
+        'patient_data_header': "🩺 Patient Data",
+        'age_label': "Age", 'sex_label': "Sex", 'chest_pain_type_label': "Chest Pain Type",
+        'resting_bp_label': "Resting Blood Pressure", 'cholesterol_label': "Cholesterol",
+        'fasting_bs_label': "Fasting Blood Sugar > 120 mg/dl?", 'resting_ecg_label': "Resting ECG Results",
+        'max_hr_label': "Maximum Heart Rate", 'exercise_angina_label': "Exercise-Induced Angina?",
+        'oldpeak_label': "Oldpeak", 'st_slope_label': "ST Slope",
+        'predict_button': "🧠 Run Prediction & Analysis", 'spinner_text': "🔄 Analyzing data...",
+        'result_header': "📊 AI Analysis Result",
+        'risk_score': "Risk Score", 'risk_level': "Risk Level", 'recommendation': "Recommendation",
+        'result_low_risk': "LOW RISK", 'result_medium_risk': "MEDIUM RISK", 'result_high_risk': "HIGH RISK",
+        'recommendation_low': "Continue a healthy lifestyle.",
+        'recommendation_medium': "It is recommended to consult a doctor for monitoring.",
+        'recommendation_high': "IMMEDIATELY consult a heart specialist.",
+        'probability_breakdown': "🔗 Probability Breakdown",
+        'risk_distribution': "Risk Probability Distribution",
+        'no_disease': "No Heart Disease", 'disease': "Heart Disease",
+        'model_confidence_title': "🎯 Model Confidence",
+        'prediction_confidence_label': "Prediction Confidence",
+        'no_disease_prob': "Probability of No Heart Disease", 'disease_prob': "Probability of Heart Disease",
+        'lime_analysis_title': "🔬 Risk Factor Explanation (LIME Analysis)",
+        'lime_explanation': "The chart below shows the most influential factors for this patient's prediction. Red bars support the 'Heart Disease' prediction, while green bars oppose it.",
+        'lime_plot_title_prefix': "Local explanation for class", 'class_disease': "Disease",
+        'prob_explanation_title': "💡 Probability Interpretation",
+        'prob_explanation_high': "The patient's probability score **({score:.1f}%)** is above the high-risk threshold **(46%)**, hence classified as **HIGH RISK**.",
+        'prob_explanation_medium': "The patient's probability score **({score:.1f}%)** is between the moderate-risk threshold **(25% - 45.9%)**, hence classified as **MEDIUM RISK**.",
+        'prob_explanation_low': "The patient's probability score **({score:.1f}%)** is below the moderate-risk threshold **(25%)**, hence classified as **LOW RISK**.",
+        'about_what_is_it_title': "🎯 What is this app?",
+        'about_what_is_it_desc': "This heart disease prediction app uses advanced machine learning algorithms to assess heart disease risk based on various patient health indicators.",
+        'about_main_features_title': "✨ Main Features",
+        'about_feature_1': "**AI-Powered Predictions:** Utilizes Random Forest algorithm for high prediction accuracy.",
+        'about_feature_2': "**Interactive Analysis:** Explore medical data with easy-to-understand visualizations.",
+        'about_feature_3': "**Personalized Risk Assessment:** Get individualized heart disease risk evaluation.",
+        'about_feature_4': "**User-Friendly:** Simple interface for easy health screening.",
+        'about_dataset_info_title': "📋 Dataset Information",
+        'about_datasource_title': "📊 Data Source",
+        'about_datasource_1': "**Source:** Kaggle - Heart Failure Prediction (https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction)",
+        'about_datasource_2': "**Records:** 918 patients",
+        'about_datasource_3': "**Features:** 11 medical indicators",
+        'about_datasource_4': "**Recall:** ~92%",
+        'about_datasource_5': "**Model Accuracy:** ~90%",
+        'about_health_indicators_title': "📈 Health Indicators",
+        'about_indicators_list': ["Age", "Sex", "Chest Pain Type", "Resting Blood Pressure", "Cholesterol", "Fasting Blood Sugar", "Resting ECG", "Max Heart Rate", "Exercise-Induced Angina", "Oldpeak", "ST Slope"],
+        'about_dev_team_title': "👥 Developer & Supervisors",
+        'about_developer': "Developer",
+        'about_advisor_1': "Advisor 1: Irani Hoeronis S.Si, M.T., CRP., CIISA.",
+        'about_advisor_2': "Advisor 2: Siti Yulianti S.T., M.Kom.",
+        'risk_key_title': "🔑 Risk Category Key",
+        'risk_key_low_title': "🟢 Low Risk",
+        'risk_key_low_desc': "Probability < 25%",
+        'risk_key_medium_title': "🟡 Medium Risk",
+        'risk_key_medium_desc': "Probability 25% - 45.9%",
+        'risk_key_high_title': "🔴 High Risk",
+        'risk_key_high_desc': "Probability ≥ 46%",
+        'data_analysis_title': "Data Analysis Visualizations",
+        'class_disease': "Heart Disease",
+        'class_healthy': "Healthy",
+
+        'tab_target_dist': "Target Distribution",
+        'tab_age_dist': "Age Distribution",
+        'tab_feature_relation': "Feature Relationship",
+        'tab_correlation': "Feature Correlation",
+
+        'target_dist_title': "Target Class Distribution",
+        'target_dist_desc': "This chart shows the proportion of patients diagnosed with heart disease versus those who are healthy in the dataset.",
+        'target_dist_pie_title': "Patient Proportion: Heart Disease vs. Healthy",
+
+        'age_dist_title': "Patient Age Distribution",
+        'age_dist_desc': "This histogram shows the age distribution of patients. You can see which age groups are most represented in the data, separated by health status.",
+        'age_dist_hist_title': "Age Distribution by Heart Disease Status",
+
+        'feature_relation_title': "Feature-Outcome Relationship",
+        'feature_relation_desc': "The charts below explore how features like cholesterol and sex are related to the likelihood of a heart disease diagnosis.",
+        'chol_vs_disease_title': "Cholesterol vs. Heart Disease Distribution",
+        'sex_vs_disease_title': "Cases by Sex",
+
+        'correlation_title': "Numerical Feature Correlation Matrix",
+        'correlation_desc': "This heatmap shows correlations between various numerical features. Values close to 1 (dark red) or -1 (dark blue) indicate strong relationships, while values close to 0 (white) suggest weak ones.",
+        'correlation_heatmap_title': "Feature Correlation Heatmap"
     }
 }
 
@@ -283,8 +335,8 @@ def create_pie_chart(probability_score, T):
     
     # Pemetaan warna yang eksplisit dan benar
     color_map = {
-        T['no_disease']: '#28a745',  # Hijau untuk "Tidak Sakit Jantung"
-        T['disease']: '#dc3545'      # Merah untuk "Sakit Jantung"
+        T['no_disease']: '#0d6efd',  # Hijau untuk "Tidak Sakit Jantung"
+        T['disease']: '#FF4B4B'      # Merah untuk "Sakit Jantung"
     }
 
     fig = px.pie(
@@ -332,7 +384,7 @@ def atur_navigasi(T):
     return selected_page
 
 def tampilkan_halaman_home(T, df):
-    # ... (fungsi ini tidak berubah)
+# ... (bagian awal fungsi tidak berubah)
     st.markdown(f"#### {T['home_intro_new']}")
     st.markdown("---")
     if df is None: st.warning("Data `heart.csv` tidak ditemukan."); return
@@ -354,6 +406,103 @@ def tampilkan_halaman_home(T, df):
         with st.container(border=True): st.markdown(f"**{T['max_hr_title']}**"); st.write(T['max_hr_range'])
         with st.container(border=True): st.markdown(f"**{T['oldpeak_title']}**"); st.write(T['oldpeak_range'])
         with st.container(border=True): st.markdown(f"**{T['categorical_title']}**"); st.write(T['categorical_desc'])
+
+    # --- KODE BARU DIMULAI DARI SINI ---
+    st.markdown("---")
+    st.subheader(T['data_analysis_title']) # Anda perlu menambahkan key ini ke dictionary T
+
+    # Membuat mapping agar label di grafik lebih mudah dibaca
+    df_display = df.copy()
+    df_display['HeartDisease_Label'] = df_display['HeartDisease'].map({1: T['class_disease'], 0: T['class_healthy']})
+
+    # Menggunakan st.tabs untuk merapikan visualisasi
+    tab1, tab2, tab3, tab4 = st.tabs([
+        f"📊 {T['tab_target_dist']}",
+        f"⏳ {T['tab_age_dist']}",
+        f"📈 {T['tab_feature_relation']}",
+        f"🔗 {T['tab_correlation']}"
+    ])
+
+    with tab1:
+        st.markdown(f"**{T['target_dist_title']}**")
+        st.write(T['target_dist_desc'])
+        pie_data = df_display['HeartDisease_Label'].value_counts()
+        fig_pie = px.pie(
+            values=pie_data.values,
+            names=pie_data.index,
+            title=T['target_dist_pie_title'],
+            color=pie_data.index,
+            color_discrete_map={
+                T['class_disease']: '#FF4B4B', # Merah untuk sakit
+                T['class_healthy']: '#1E88E5'  # Biru untuk sehat
+            }
+        )
+        st.plotly_chart(fig_pie, use_container_width=True)
+
+    with tab2:
+        st.markdown(f"**{T['age_dist_title']}**")
+        st.write(T['age_dist_desc'])
+        fig_hist = px.histogram(
+            df_display,
+            x='Age',
+            color='HeartDisease_Label',
+            marginal="box", # Menambahkan boxplot di atas histogram
+            nbins=30,
+            title=T['age_dist_hist_title'],
+            color_discrete_map={
+                T['class_disease']: '#FF4B4B',
+                T['class_healthy']: '#1E88E5'
+            }
+        )
+        st.plotly_chart(fig_hist, use_container_width=True)
+
+    with tab3:
+        st.markdown(f"**{T['feature_relation_title']}**")
+        st.write(T['feature_relation_desc'])
+
+        # Box plot untuk Kolesterol vs Penyakit Jantung
+        fig_box = px.box(
+            df_display,
+            x='HeartDisease_Label',
+            y='Cholesterol',
+            color='HeartDisease_Label',
+            title=T['chol_vs_disease_title'],
+            color_discrete_map={
+                T['class_disease']: '#FF4B4B',
+                T['class_healthy']: '#1E88E5'
+            }
+        )
+        st.plotly_chart(fig_box, use_container_width=True)
+
+        # Bar chart untuk Jenis Kelamin vs Penyakit Jantung
+        fig_bar = px.histogram(
+            df_display,
+            x='Sex',
+            color='HeartDisease_Label',
+            barmode='group',
+            title=T['sex_vs_disease_title'],
+            color_discrete_map={
+                T['class_disease']: '#FF4B4B',
+                T['class_healthy']: '#1E88E5'
+            }
+        )
+        st.plotly_chart(fig_bar, use_container_width=True)
+
+    with tab4:
+        st.markdown(f"**{T['correlation_title']}**")
+        st.write(T['correlation_desc'])
+        # Memilih hanya kolom numerik untuk heatmap
+        numeric_cols = df.select_dtypes(include=['int64', 'float64']).columns
+        corr_matrix = df[numeric_cols].corr()
+
+        # Membuat heatmap menggunakan Matplotlib dan Seaborn
+        fig_heatmap, ax = plt.subplots(figsize=(10, 8))
+        sns.heatmap(corr_matrix, annot=True, fmt=".2f", cmap="coolwarm", ax=ax, annot_kws={"size": 8})
+        ax.set_title(T['correlation_heatmap_title'], fontsize=16)
+        st.pyplot(fig_heatmap)
+        plt.clf() # Membersihkan figure setelah ditampilkan
+    # --- KODE BARU BERAKHIR DI SINI ---
+
     st.markdown("<br>", unsafe_allow_html=True)
     st.error(f"**{T['home_disclaimer_title']}**\n{T['home_disclaimer_md']}")
 
@@ -410,7 +559,7 @@ def tampilkan_halaman_prediksi(T, model, explainer, preprocessor):
                 if i < len(exp_list):
                     weight = exp_list[i][1]
                     if weight > 0: patch.set_color('red')
-                    else: patch.set_color('green')
+                    else: patch.set_color('blue')
             ax.set_title(f"{T['lime_plot_title_prefix']} {T['class_disease']}", fontsize=15); st.pyplot(fig, use_container_width=True); plt.clf()
 
 def tampilkan_halaman_about(T):
