@@ -132,7 +132,16 @@ TRANSLATIONS = {
 
         'correlation_title': "Matriks Korelasi Fitur Numerik",
         'correlation_desc': "Heatmap ini menunjukkan korelasi antara berbagai fitur numerik. Nilai mendekati 1 (merah tua) atau -1 (biru tua) menunjukkan hubungan yang kuat, sedangkan nilai mendekati 0 (putih) menunjukkan hubungan yang lemah.",
-        'correlation_heatmap_title': "Heatmap Korelasi Fitur"
+        'correlation_heatmap_title': "Heatmap Korelasi Fitur",
+
+        # <<< MULAI KODE BARU >>>
+        'tab_feature_importance': "Pentingnya Fitur",
+        'feature_importance_title': "Tingkat Kepentingan Fitur (Feature Importance)",
+        'feature_importance_desc': "Grafik ini menunjukkan fitur mana yang paling berpengaruh secara global terhadap prediksi model Random Forest. Semakin tinggi nilainya, semakin penting fitur tersebut bagi model.",
+        'feature_importance_chart_title': "Fitur Paling Berpengaruh (Random Forest Feature Importance)",
+        'feature_importance_xaxis': "Tingkat Kepentingan (Importance)",
+        'feature_importance_yaxis': "Fitur"
+        # <<< AKHIR KODE BARU >>>
     },
     'en': { # English translations need to be fully populated for a real app
         'banner_title': "Heart Disease Prediction System",
@@ -239,7 +248,16 @@ TRANSLATIONS = {
 
         'correlation_title': "Numerical Feature Correlation Matrix",
         'correlation_desc': "This heatmap shows correlations between various numerical features. Values close to 1 (dark red) or -1 (dark blue) indicate strong relationships, while values close to 0 (white) suggest weak ones.",
-        'correlation_heatmap_title': "Feature Correlation Heatmap"
+        'correlation_heatmap_title': "Feature Correlation Heatmap",
+
+        # <<< MULAI KODE BARU >>>
+        'tab_feature_importance': "Feature Importance",
+        'feature_importance_title': "Feature Importance Level",
+        'feature_importance_desc': "This chart shows which features are most influential globally for the Random Forest model's predictions. A higher value means the feature is more important to the model.",
+        'feature_importance_chart_title': "Most Influential Features (Random Forest Feature Importance)",
+        'feature_importance_xaxis': "Importance Level",
+        'feature_importance_yaxis': "Feature"
+        # <<< AKHIR KODE BARU >>>
     }
 }
 
@@ -383,45 +401,57 @@ def atur_navigasi(T):
             """)
     return selected_page
 
-def tampilkan_halaman_home(T, df):
-# ... (bagian awal fungsi tidak berubah)
+# <<< UBAH DEFINISI FUNGSI INI >>>
+def tampilkan_halaman_home(T, df, model): # Tambahkan 'model' sebagai parameter
     st.markdown(f"#### {T['home_intro_new']}")
     st.markdown("---")
     if df is None: st.warning("Data `heart.csv` tidak ditemukan."); return
-    total_sampel = df.shape[0]; total_fitur = df.shape[1] - 1; kasus_positif = df['HeartDisease'].sum(); kasus_negatif = total_sampel - kasus_positif
+
+    # Tinjauan Dataset
     st.subheader(T['dataset_overview_title'])
     col1, col2, col3, col4 = st.columns(4)
-    with col1: st.metric(label=f"🗂️ {T['total_samples_title']}", value=total_sampel, help=T['total_samples_desc'])
-    with col2: st.metric(label=f"⚙️ {T['features_title']}", value=total_fitur, help=T['features_desc'])
-    with col3: st.metric(label=f"⚠️ {T['positive_cases_title']}", value=kasus_positif, help=T['positive_cases_desc'])
-    with col4: st.metric(label=f"✅ {T['healthy_cases_title']}", value=kasus_negatif, help=T['healthy_cases_desc'])
-    st.markdown("<br>", unsafe_allow_html=True)
+    with col1: st.metric(label=f"🗂️ {T['total_samples_title']}", value=df.shape[0], help=T['total_samples_desc'])
+    with col2: st.metric(label=f"⚙️ {T['features_title']}", value=df.shape[1] - 1, help=T['features_desc'])
+    with col3: st.metric(label=f"⚠️ {T['positive_cases_title']}", value=df['HeartDisease'].sum(), help=T['positive_cases_desc'])
+    with col4: st.metric(label=f"✅ {T['healthy_cases_title']}", value=df.shape[0] - df['HeartDisease'].sum(), help=T['healthy_cases_desc'])
+    
     st.subheader(T['input_guide_title'])
+
     col1, col2 = st.columns(2)
+
     with col1:
+
         with st.container(border=True): st.markdown(f"**{T['age_title']}**"); st.write(T['age_range'])
+
         with st.container(border=True): st.markdown(f"**{T['resting_bp_title']}**"); st.write(T['resting_bp_range'])
+
         with st.container(border=True): st.markdown(f"**{T['cholesterol_title']}**"); st.write(T['cholesterol_range']); st.info(T['cholesterol_note'])
+
     with col2:
+
         with st.container(border=True): st.markdown(f"**{T['max_hr_title']}**"); st.write(T['max_hr_range'])
+
         with st.container(border=True): st.markdown(f"**{T['oldpeak_title']}**"); st.write(T['oldpeak_range'])
+
         with st.container(border=True): st.markdown(f"**{T['categorical_title']}**"); st.write(T['categorical_desc'])
-
-    # --- KODE BARU DIMULAI DARI SINI ---
+    # ... (Anda bisa meletakkan kode panduan input di sini jika ada)
+    
     st.markdown("---")
-    st.subheader(T['data_analysis_title']) # Anda perlu menambahkan key ini ke dictionary T
+    st.subheader(T['data_analysis_title']) 
 
-    # Membuat mapping agar label di grafik lebih mudah dibaca
     df_display = df.copy()
     df_display['HeartDisease_Label'] = df_display['HeartDisease'].map({1: T['class_disease'], 0: T['class_healthy']})
 
-    # Menggunakan st.tabs untuk merapikan visualisasi
-    tab1, tab2, tab3, tab4 = st.tabs([
+    # Definisi Tabs
+    tab1, tab2, tab3, tab4, tab5 = st.tabs([
         f"📊 {T['tab_target_dist']}",
         f"⏳ {T['tab_age_dist']}",
         f"📈 {T['tab_feature_relation']}",
-        f"🔗 {T['tab_correlation']}"
+        f"🔗 {T['tab_correlation']}",
+        f"🏆 {T['tab_feature_importance']}"
     ])
+
+    # --- KONTEN UNTUK SETIAP TAB ---
 
     with tab1:
         st.markdown(f"**{T['target_dist_title']}**")
@@ -433,8 +463,8 @@ def tampilkan_halaman_home(T, df):
             title=T['target_dist_pie_title'],
             color=pie_data.index,
             color_discrete_map={
-                T['class_disease']: '#FF4B4B', # Merah untuk sakit
-                T['class_healthy']: '#1E88E5'  # Biru untuk sehat
+                T['class_disease']: '#FF4B4B', 
+                T['class_healthy']: '#1E88E5'
             }
         )
         st.plotly_chart(fig_pie, use_container_width=True)
@@ -443,12 +473,8 @@ def tampilkan_halaman_home(T, df):
         st.markdown(f"**{T['age_dist_title']}**")
         st.write(T['age_dist_desc'])
         fig_hist = px.histogram(
-            df_display,
-            x='Age',
-            color='HeartDisease_Label',
-            marginal="box", # Menambahkan boxplot di atas histogram
-            nbins=30,
-            title=T['age_dist_hist_title'],
+            df_display, x='Age', color='HeartDisease_Label',
+            marginal="box", nbins=30, title=T['age_dist_hist_title'],
             color_discrete_map={
                 T['class_disease']: '#FF4B4B',
                 T['class_healthy']: '#1E88E5'
@@ -459,13 +485,8 @@ def tampilkan_halaman_home(T, df):
     with tab3:
         st.markdown(f"**{T['feature_relation_title']}**")
         st.write(T['feature_relation_desc'])
-
-        # Box plot untuk Kolesterol vs Penyakit Jantung
         fig_box = px.box(
-            df_display,
-            x='HeartDisease_Label',
-            y='Cholesterol',
-            color='HeartDisease_Label',
+            df_display, x='HeartDisease_Label', y='Cholesterol', color='HeartDisease_Label',
             title=T['chol_vs_disease_title'],
             color_discrete_map={
                 T['class_disease']: '#FF4B4B',
@@ -473,13 +494,8 @@ def tampilkan_halaman_home(T, df):
             }
         )
         st.plotly_chart(fig_box, use_container_width=True)
-
-        # Bar chart untuk Jenis Kelamin vs Penyakit Jantung
         fig_bar = px.histogram(
-            df_display,
-            x='Sex',
-            color='HeartDisease_Label',
-            barmode='group',
+            df_display, x='Sex', color='HeartDisease_Label', barmode='group',
             title=T['sex_vs_disease_title'],
             color_discrete_map={
                 T['class_disease']: '#FF4B4B',
@@ -491,17 +507,33 @@ def tampilkan_halaman_home(T, df):
     with tab4:
         st.markdown(f"**{T['correlation_title']}**")
         st.write(T['correlation_desc'])
-        # Memilih hanya kolom numerik untuk heatmap
         numeric_cols = df.select_dtypes(include=['int64', 'float64']).columns
         corr_matrix = df[numeric_cols].corr()
-
-        # Membuat heatmap menggunakan Matplotlib dan Seaborn
         fig_heatmap, ax = plt.subplots(figsize=(10, 8))
         sns.heatmap(corr_matrix, annot=True, fmt=".2f", cmap="coolwarm", ax=ax, annot_kws={"size": 8})
         ax.set_title(T['correlation_heatmap_title'], fontsize=16)
         st.pyplot(fig_heatmap)
-        plt.clf() # Membersihkan figure setelah ditampilkan
-    # --- KODE BARU BERAKHIR DI SINI ---
+        plt.clf()
+
+    with tab5:
+        st.markdown(f"**{T['feature_importance_title']}**")
+        st.write(T['feature_importance_desc'])
+        if model:
+            importances = model.named_steps['classifier'].feature_importances_
+            feature_names = model.named_steps['preprocessor'].get_feature_names_out()
+            feature_importance_df = pd.DataFrame({
+                'Feature': feature_names,
+                'Importance': importances
+            }).sort_values(by='Importance', ascending=False)
+            fig_importance = px.bar(
+                feature_importance_df, x='Importance', y='Feature', orientation='h',
+                title=T['feature_importance_chart_title'],
+                labels={'Importance': T['feature_importance_xaxis'], 'Feature': T['feature_importance_yaxis']}
+            )
+            fig_importance.update_layout(yaxis={'categoryorder':'total ascending'})
+            st.plotly_chart(fig_importance, use_container_width=True)
+        else:
+            st.warning("Model tidak berhasil dimuat untuk menampilkan feature importance.")
 
     st.markdown("<br>", unsafe_allow_html=True)
     st.error(f"**{T['home_disclaimer_title']}**\n{T['home_disclaimer_md']}")
@@ -607,13 +639,18 @@ def main():
     
     tampilkan_header_banner(T)
 
+    # <<< UBAH PANGGILAN FUNGSI DI BAWAH INI >>>
     if selected_page == T['nav_home']:
-        tampilkan_halaman_home(T, df)
+        # Teruskan 'model' ke fungsi halaman home
+        tampilkan_halaman_home(T, df, model)
     elif selected_page == T['nav_predict']:
-        if model is None: st.error(T['model_load_error'])
-        else: tampilkan_halaman_prediksi(T, model, explainer, preprocessor)
+        
+        tampilkan_halaman_prediksi(T, model, explainer, preprocessor)
+        # Teruskan 'model', 'explainer', dan 'preprocessor' ke fungsi
+        # ... (tidak ada perubahan di sini)
     elif selected_page == T['nav_about']:
         tampilkan_halaman_about(T)
+        # ... (tidak ada perubahan di sini)
 
 if __name__ == "__main__":
     main()
